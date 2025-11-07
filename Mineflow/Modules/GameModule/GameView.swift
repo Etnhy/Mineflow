@@ -266,7 +266,14 @@ struct CellView: View {
 
             if cell.isOpened {
                 if cell.isMine {
-                    TextOrIcon(theme.bombIcon)
+                    if let image = theme.bombImage {
+                        image
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: scaleHeight(35), height: scaleHeight(35))
+                    } else {
+                        TextOrIcon(theme.bombIcon)
+                    }
                 } else if cell.surroundingMines > 0 {
                     Text("\(cell.surroundingMines)")
                         .bold()
@@ -279,7 +286,13 @@ struct CellView: View {
             } else {
                 switch cell.flagState {
                 case .flagged:
-                    TextOrIcon(theme.flagIcon)
+                    if let image = theme.flagImage {
+                        image
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: scaleHeight(35), height: scaleHeight(35))
+
+                    }
                     
                 case .questionMarked:
                     TextOrIcon(theme.questionMarkIcon)
@@ -289,6 +302,7 @@ struct CellView: View {
             }
         }
     }
+        
     
     private func colorForNumber(_ number: Int) -> Color {
         switch number {
@@ -305,16 +319,16 @@ struct CellView: View {
     }
     
     @ViewBuilder
-        private func TextOrIcon(_ iconName: String) -> some View {
-
-            if iconName.count == 1 {
-                Text(iconName)
-                    .font(.caption)
-            } else {
-                Image(systemName: iconName)
-                    .font(.caption)
-            }
+    private func TextOrIcon(_ iconName: String) -> some View {
+        
+        if iconName.count == 1 {
+            Text(iconName)
+                .font(.caption)
+        } else {
+            Image(systemName: iconName)
+                .font(.caption)
         }
+    }
     
 }
 

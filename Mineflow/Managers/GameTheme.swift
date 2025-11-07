@@ -19,7 +19,12 @@ struct GameTheme: Equatable, Identifiable,Hashable {
     var cellBorder: Color
     var numberColors: [Color]
     var bombIcon: String
+    
+    var bombImage: Image?
+    
     var flagIcon: String
+    var flagImage: Image?
+    
     var questionMarkIcon: String
     var cornerRadius: CGFloat
     
@@ -34,6 +39,9 @@ struct GameTheme: Equatable, Identifiable,Hashable {
     static var allCases: [GameTheme] { [.classic, .nightMode, .midnight, .meadow, .candy, .oledDark] }
     
 
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
     
     static let classic = GameTheme(
         name: "Classic",
@@ -44,7 +52,9 @@ struct GameTheme: Equatable, Identifiable,Hashable {
             .blue, .green, .red, .purple, .orange, .cyan, .pink, .black
         ],
         bombIcon: "💣",
+        bombImage: Image(.classicMine),
         flagIcon: "🚩",
+        flagImage: Image(.classicFlag),
         questionMarkIcon: "❓",
         cornerRadius: 0,
 
@@ -64,7 +74,9 @@ struct GameTheme: Equatable, Identifiable,Hashable {
             .cyan, .green, .red, .yellow, .orange, .purple, .pink, .white
         ],
         bombIcon: "sun.max.fill",
+        bombImage: Image(.nightModeMine),
         flagIcon: "flag.fill",
+        flagImage: Image(.nightModeFlag),
         questionMarkIcon: "questionmark.diamond.fill",
         cornerRadius: 8.0,
 
@@ -84,7 +96,9 @@ struct GameTheme: Equatable, Identifiable,Hashable {
             .cyan, Color(red: 80/255, green: 220/255, blue: 100/255), .red, .indigo, .orange, .teal, .pink, .gray
         ],
         bombIcon: "bolt.fill",
+        bombImage: Image(.midnightMine),
         flagIcon: "pin.fill",
+        flagImage: Image(.midnightFlag),
         questionMarkIcon: "questionmark.circle.fill",
         cornerRadius: 4.0,
 
@@ -104,7 +118,9 @@ struct GameTheme: Equatable, Identifiable,Hashable {
             .blue, .green, .red, .purple, .orange, .teal, .pink, Color(white: 0.4)
         ],
         bombIcon: "🐞",
+        bombImage: Image(.meadowMine),
         flagIcon: "🌸",
+        flagImage: Image(.meadowFlag),
         questionMarkIcon: "☘️",
         cornerRadius: 10.0,
 
@@ -124,7 +140,9 @@ struct GameTheme: Equatable, Identifiable,Hashable {
             Color(red: 0.3, green: 0.2, blue: 1.0), .green, .red, .purple, .orange, .teal, .black, .gray
         ],
         bombIcon: "app.gift.fill",
+        bombImage: Image(.candyMine),
         flagIcon: "heart.fill",
+        flagImage: Image(.candyFlag),
         questionMarkIcon: "wand.and.stars",
         cornerRadius: 12.0,
 
@@ -144,7 +162,9 @@ struct GameTheme: Equatable, Identifiable,Hashable {
             .cyan, Color(red: 0.5, green: 1, blue: 0), .red, .blue, .orange, .yellow, .pink, Color(white: 0.8)
         ],
         bombIcon: "bolt.slash.fill",
+        bombImage: Image(.oledDarkMine),
         flagIcon: "pin.fill",
+        flagImage: Image(.oledDarkFlag),
         questionMarkIcon: "questionmark",
         cornerRadius: 4,
 
