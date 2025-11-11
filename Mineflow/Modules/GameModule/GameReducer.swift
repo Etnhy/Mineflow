@@ -274,7 +274,6 @@ func generateEmptyBoard(rows: Int, cols: Int) -> [[Cell]] {
 private func openCell(_ state: inout GameState, r: Int, c: Int) {
     guard r >= 0 && r < state.gameModel.rows && c >= 0 && c < state.gameModel.cols else { return }
     let cell = state.board[r][c]
-    print(r,c)
     if cell.isOpened || cell.isMine || cell.flagState != .none {
         return
     }

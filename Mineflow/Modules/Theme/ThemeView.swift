@@ -23,6 +23,7 @@ struct ThemeView: View {
 
     @State private var selectedTheme: GameTheme
     
+    @Environment(\.dismiss) var dismiss
     
     init(state: ThemeState, send: @escaping (ThemeAction) -> Void) {
             self.state = state
@@ -35,13 +36,16 @@ struct ThemeView: View {
             selectedTheme.backgroundColor.ignoresSafeArea()
                 .animation(.linear, value: selectedTheme)
             VStack {
+                AppViewHeader(theme: selectedTheme, title: "Select Theme") {
+                    dismiss()
+                }
                 TabView(selection: $selectedTheme) {
                     ForEach(GameTheme.allCases,id: \.id) { item in
                         
                         VStack {
                             Text(item.name)
-                                .font(.system(size: 22, weight: .semibold, design: .rounded))
-                                .foregroundStyle(item.headerBackgroundColor)
+                                .font(.sofia(weight: .semiBold600, size: 20))
+                                .foregroundStyle(item.accentColor)
 
                             gameField(theme: item)
                                 .frame(width: UIScreen.main.bounds.width - 40, height: 400)
@@ -58,7 +62,7 @@ struct ThemeView: View {
                 }
                 Button {
                     send(.themeChanged(selectedTheme))
-
+                    dismiss()
                 } label: {
                     Text("select")
                 }
@@ -66,18 +70,23 @@ struct ThemeView: View {
                 
             }
         }
+        .navigationBarBackButtonHidden(true)
+        .toolbar(.hidden, for: .navigationBar)
+
     }
     
     @ViewBuilder
     private func gameField(theme: GameTheme) -> some View {
+        
         GeometryReader { geometry in
+            
             let boardView = Grid(horizontalSpacing: cellSpacing, verticalSpacing: cellSpacing) {
                 ForEach(0..<state.testState.gameModel.rows, id: \.self) { row in
                     GridRow {
                         ForEach(0..<state.testState.gameModel.cols, id: \.self) { col in
                             let cell = state.testState.board[row][col]
                             
-                            CellView(theme: theme,cell: cell)
+                            CellView(theme: theme,cell: cell, cellCornerRadius: theme.cornerRadius, cellFontSize: 22, cellImageSize: 35)
                            
                         }
                     }

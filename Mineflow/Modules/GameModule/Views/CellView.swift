@@ -11,6 +11,10 @@ struct CellView: View {
     var theme: GameTheme
     let cell: Cell
 
+    let cellCornerRadius: CGFloat
+    let cellFontSize: CGFloat
+    let cellImageSize: CGFloat
+    
     var cellIsOpenMine: Bool {
         cell.isOpened && cell.isMine
     }
@@ -19,15 +23,13 @@ struct CellView: View {
     var body: some View {
         ZStack {
             let baseColor = cell.isOpened ? theme.cellOpened : theme.cellClosed
-            
             ZStack {
-                RoundedRectangle(cornerRadius: theme.cornerRadius)
+                RoundedRectangle(cornerRadius: cellCornerRadius)
                     .fill(cellIsOpenMine ? .red : baseColor)
                     .aspectRatio(1, contentMode: .fit)
-                RoundedRectangle(cornerRadius: theme.cornerRadius)
+                RoundedRectangle(cornerRadius: cellCornerRadius)
                     .stroke(Color.black.opacity(0.3), lineWidth: 0.5)
                     .aspectRatio(1, contentMode: .fit)
-                
             }
             
 
@@ -37,19 +39,20 @@ struct CellView: View {
                         image
                             .resizable()
                             .scaledToFit()
-                            .frame(width: scaleHeight(35), height: scaleHeight(35))
+                            .frame(width: scaleHeight(cellImageSize), height: scaleHeight(cellImageSize))
                     } else {
                         TextOrIcon(theme.bombIcon)
                     }
+                    
                 } else if cell.surroundingMines > 0 {
                     Text("\(cell.surroundingMines)")
-                        .bold()
-                        .font(.callout)
-                    
+                        .font(.sofia(weight: .bold700, size: cellFontSize))
+
                         .foregroundColor(theme.numberColors[cell.surroundingMines - 1])
                 } else {
                     EmptyView()
                 }
+                
             } else {
                 switch cell.flagState {
                 case .flagged:
@@ -57,7 +60,7 @@ struct CellView: View {
                         image
                             .resizable()
                             .scaledToFit()
-                            .frame(width: scaleHeight(35), height: scaleHeight(35))
+                            .frame(width: scaleHeight(cellImageSize), height: scaleHeight(cellImageSize))
 
                     } else {
                         TextOrIcon(theme.flagIcon)
@@ -69,7 +72,7 @@ struct CellView: View {
                         question
                             .resizable()
                             .scaledToFit()
-                            .frame(width: scaleHeight(35), height: scaleHeight(35))
+                            .frame(width: scaleHeight(cellImageSize), height: scaleHeight(cellImageSize))
                     } else {
                     
                         TextOrIcon(theme.questionMarkIcon)
@@ -102,6 +105,7 @@ struct CellView: View {
         if iconName.count == 1 {
             Text(iconName)
                 .font(.caption)
+
         } else {
             Image(systemName: iconName)
                 .font(.caption)

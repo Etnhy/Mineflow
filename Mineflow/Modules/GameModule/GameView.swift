@@ -19,13 +19,15 @@ struct GameView: View {
     
     
     
-    @State private var finalScale: CGFloat = 1.0
+    @State private var finalScale: CGFloat = 1
     @GestureState private var gestureScale: CGFloat = 1.0
     
     @State private var finalOffset: CGSize = .zero
     @GestureState private var gestureOffset: CGSize = .zero
     private let padding: CGFloat = 2.0
     private let cellSpacing: CGFloat = 1.0
+    
+    @Environment(\.dismiss) var dismiss
     
 
   @State var timer = Timer.publish(every: 1.0, on: .main, in: .common).autoconnect()
@@ -34,6 +36,9 @@ struct GameView: View {
         ZStack {
             theme.backgroundColor.ignoresSafeArea()
             VStack(spacing: 0) {
+                AppViewHeader(theme: theme, title: state.gameModel.name) {
+                    dismiss()
+                }
                 GameHeaderView(theme: theme,
                     status: state.status,
                     elapsedTime: state.elapsedTime,
@@ -42,32 +47,36 @@ struct GameView: View {
                 )
                 
                 gameField()
-//                    .overlay(
-//                        Group {
-//                            if state.status == .won || state.status == .lost {
-//                                GameStatusOverlay(status: state.status, onRestart: restartAction)
-//                            }
-//                            
-//                        }
-//                    )
-                
+                BannerAdsView()
             }
             .edgesIgnoringSafeArea(.bottom)
             .onReceive(timer) { _ in
                 send(.timerTick)
             }
         }
+        .navigationBarBackButtonHidden(true)
+        .toolbar(.hidden, for: .navigationBar)
+
     }
+    
+    
     
     private func gameField() -> some View {
         GeometryReader { geometry in
+            let cellSIze = calculateCellSize(geometry: geometry)
             let boardView = Grid(horizontalSpacing: cellSpacing, verticalSpacing: cellSpacing) {
                 ForEach(0..<state.gameModel.rows, id: \.self) { row in
                     GridRow {
                         ForEach(0..<state.gameModel.cols, id: \.self) { col in
                             let cell = state.board[row][col]
                             
-                            CellView(theme: theme,cell: cell)
+                            CellView(
+                                theme: theme,
+                                cell: cell,
+                                cellCornerRadius: cellCornerRadius(),
+                                cellFontSize: cellFontSize(),
+                                cellImageSize: cellImageSize()
+                            )
                                 .onLongPressGesture(minimumDuration: 0.3) {
                                     send(.longPressCell(row: row, col: col))
                                 }
@@ -78,6 +87,7 @@ struct GameView: View {
                 .padding(padding)
                 .background(Color.gray.opacity(0.5))
             ZStack(alignment: .center) {
+                theme.backgroundColor.ignoresSafeArea()
                 boardView
                     .scaleEffect(finalScale * gestureScale, anchor: .center)
                     .offset(x: finalOffset.width + gestureOffset.width, y: finalOffset.height + gestureOffset.height)
@@ -116,6 +126,40 @@ struct GameView: View {
             )
         }
 
+    }
+    
+    private func cellCornerRadius() -> CGFloat {
+        switch state.gameModel.gameMode {
+        case .easy:
+            return theme.cornerRadius
+        case .medium:
+            return theme.cornerRadius / 2.0
+        case .hard:
+            return theme.cornerRadius / 4.0
+        }
+    }
+    
+    private func cellFontSize() -> CGFloat {
+        switch state.gameModel.gameMode {
+        case .easy:
+            return 22
+        case .medium:
+            return 18
+        case .hard:
+            return 14
+        }
+    }
+    
+    private func cellImageSize() -> CGFloat {
+        switch state.gameModel.gameMode {
+        case .easy:
+            return 35
+        case .medium:
+            return 20
+        case .hard:
+            return 15
+
+        }
     }
     
     private func restartAction() {

@@ -135,7 +135,7 @@ private extension AppStore {
 private extension AppStore {
     func handleGameEffects(action: GameAction, appState: AppState, previousState: GameState?) {
         
-        guard appState.settingsState?.hapticIsOn == true else {
+        guard environment.settings.hapticIsOn else {
             return
         }
         
@@ -145,6 +145,7 @@ private extension AppStore {
         if newState.status == .won && previousState.status != .won {
             haptics.notify(.success)
             //print(state?.moveHistory)
+            #warning("move history")
             return
         }
         

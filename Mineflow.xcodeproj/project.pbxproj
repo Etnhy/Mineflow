@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		D89FBD3CFDCE79D46D4C1703 /* Pods_Mineflow.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A19C1DEF2B525DDEC4C4B15 /* Pods_Mineflow.framework */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		7A71FC092EB38ADE00A9A6CA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -24,16 +28,19 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6C6C645CDE597BA23E5C141D /* Pods-Mineflow.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mineflow.release.xcconfig"; path = "Target Support Files/Pods-Mineflow/Pods-Mineflow.release.xcconfig"; sourceTree = "<group>"; };
 		7A71FBFB2EB38ADD00A9A6CA /* Mineflow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mineflow.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A71FC082EB38ADE00A9A6CA /* MineflowTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MineflowTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A71FC122EB38ADE00A9A6CA /* MineflowUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MineflowUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8A19C1DEF2B525DDEC4C4B15 /* Pods_Mineflow.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Mineflow.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D9D9878A29DC17F99D338BFC /* Pods-Mineflow.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mineflow.debug.xcconfig"; path = "Target Support Files/Pods-Mineflow/Pods-Mineflow.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
 		7AE7C4472EC089A1007E7CD1 /* Exceptions for "Mineflow" folder in "Mineflow" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Info.plist,
+				App/Info.plist,
 			);
 			target = 7A71FBFA2EB38ADD00A9A6CA /* Mineflow */;
 		};
@@ -50,11 +57,15 @@
 		};
 		7A71FC0B2EB38ADE00A9A6CA /* MineflowTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
 			path = MineflowTests;
 			sourceTree = "<group>";
 		};
 		7A71FC152EB38ADE00A9A6CA /* MineflowUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
 			path = MineflowUITests;
 			sourceTree = "<group>";
 		};
@@ -65,6 +76,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D89FBD3CFDCE79D46D4C1703 /* Pods_Mineflow.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,6 +104,8 @@
 				7A71FC0B2EB38ADE00A9A6CA /* MineflowTests */,
 				7A71FC152EB38ADE00A9A6CA /* MineflowUITests */,
 				7A71FBFC2EB38ADD00A9A6CA /* Products */,
+				DFFFEA84822256C8053A0C19 /* Pods */,
+				82028BB7F67519FBA15E5FFF /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -105,6 +119,24 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		82028BB7F67519FBA15E5FFF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8A19C1DEF2B525DDEC4C4B15 /* Pods_Mineflow.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DFFFEA84822256C8053A0C19 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D9D9878A29DC17F99D338BFC /* Pods-Mineflow.debug.xcconfig */,
+				6C6C645CDE597BA23E5C141D /* Pods-Mineflow.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -112,9 +144,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7A71FC1C2EB38ADE00A9A6CA /* Build configuration list for PBXNativeTarget "Mineflow" */;
 			buildPhases = (
+				29582C02DA7FBBD20E15D816 /* [CP] Check Pods Manifest.lock */,
 				7A71FBF72EB38ADD00A9A6CA /* Sources */,
 				7A71FBF82EB38ADD00A9A6CA /* Frameworks */,
 				7A71FBF92EB38ADD00A9A6CA /* Resources */,
+				332479405799966D55DF2E94 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -124,8 +158,6 @@
 				7A71FBFD2EB38ADD00A9A6CA /* Mineflow */,
 			);
 			name = Mineflow;
-			packageProductDependencies = (
-			);
 			productName = Mineflow;
 			productReference = 7A71FBFB2EB38ADD00A9A6CA /* Mineflow.app */;
 			productType = "com.apple.product-type.application";
@@ -147,8 +179,6 @@
 				7A71FC0B2EB38ADE00A9A6CA /* MineflowTests */,
 			);
 			name = MineflowTests;
-			packageProductDependencies = (
-			);
 			productName = MineflowTests;
 			productReference = 7A71FC082EB38ADE00A9A6CA /* MineflowTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -170,8 +200,6 @@
 				7A71FC152EB38ADE00A9A6CA /* MineflowUITests */,
 			);
 			name = MineflowUITests;
-			packageProductDependencies = (
-			);
 			productName = MineflowUITests;
 			productReference = 7A71FC122EB38ADE00A9A6CA /* MineflowUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
@@ -184,7 +212,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 2600;
-				LastUpgradeCheck = 2600;
+				LastUpgradeCheck = 2610;
 				TargetAttributes = {
 					7A71FBFA2EB38ADD00A9A6CA = {
 						CreatedOnToolsVersion = 26.0.1;
@@ -243,6 +271,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		29582C02DA7FBBD20E15D816 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Mineflow-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		332479405799966D55DF2E94 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Mineflow/Pods-Mineflow-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Mineflow/Pods-Mineflow-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Mineflow/Pods-Mineflow-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		7A71FBF72EB38ADD00A9A6CA /* Sources */ = {
@@ -341,6 +411,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -398,6 +469,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -405,6 +477,7 @@
 		};
 		7A71FC1D2EB38ADE00A9A6CA /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D9D9878A29DC17F99D338BFC /* Pods-Mineflow.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -413,7 +486,7 @@
 				DEVELOPMENT_TEAM = 876GZYDWFS;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Mineflow/Info.plist;
+				INFOPLIST_FILE = Mineflow/App/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Mineflow;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -445,6 +518,7 @@
 		};
 		7A71FC1E2EB38ADE00A9A6CA /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6C6C645CDE597BA23E5C141D /* Pods-Mineflow.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -453,7 +527,7 @@
 				DEVELOPMENT_TEAM = 876GZYDWFS;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Mineflow/Info.plist;
+				INFOPLIST_FILE = Mineflow/App/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Mineflow;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
