@@ -11,10 +11,11 @@ import Combine
 struct AppEnvironment {
     var haptics: HapticsClient
     let settings: SettingsRepository
+    let coredata: CoreDataRepository
     
     static let env = AppEnvironment(
         haptics: HapticsClient.live,
-        settings: SettingsRepository()
+        settings: SettingsRepository(), coredata: CoreDataRepository()
     )
     
     
@@ -82,6 +83,12 @@ final class AppStore: ObservableObject {
             
         case .theme(let themeAction):
             themeReducer(state: &state.themeState, action: themeAction)
+        case .navigateToStatisticsView:
+            let statisticState = StatisticState(theme: state.currentTheme)
+            state.statisticState = statisticState
+            state.navigationPath.append(.statistic)
+        case .statisticAction(let statAction):
+            statisticreducer(state: &state.statisticState, action: statAction)
         }
         
     }
@@ -101,12 +108,46 @@ final class AppStore: ObservableObject {
             
         case .theme(let themeAction):
             handleThmeEffects(action: themeAction)
+        case .statisticAction(let statAction):
+            handleStatisticEffects(action: statAction)
         default: break
         }
     }
     
     
     
+}
+private extension AppStore {
+    func handleStatisticEffects(action: StatisticAction) {
+        switch action {
+        case .viewAppeared:
+            Task {
+                do {
+                    let loadedModels = try environment.coredata.fetchGameModels()
+                    await MainActor.run {
+                        self.send(.statisticAction(.statisticsLoaded(loadedModels)))
+                    }
+                } catch {
+                    print("❗️ CoreData Fetch Error: \(error)")
+                }
+            }
+        case .statisticsLoaded(_):
+            break
+        case .resetAllStatistics:
+            Task {
+                do {
+                    try environment.coredata.deleteAllGameModels()
+                    await MainActor.run {
+                        self.send(.statisticAction(.statisticsLoaded([])))
+                    }
+
+                }catch {
+                    print(error)
+                }
+            }
+            
+        }
+    }
 }
 
 private extension AppStore {
@@ -120,6 +161,7 @@ private extension AppStore {
     }
 }
 
+ //MARK: - Handle settings efffects
 private extension AppStore {
     func handleSettingsEffect(action: SettingsAction) {
         switch action {
@@ -144,13 +186,38 @@ private extension AppStore {
         let haptics = self.environment.haptics
         if newState.status == .won && previousState.status != .won {
             haptics.notify(.success)
-            //print(state?.moveHistory)
-            #warning("move history")
+            
+            let gameModel = GameModel(
+                date: Date(),
+                status: newState.status,
+                gameMode: newState.gameModel.gameMode,
+                moveHistory: newState.moveHistory,
+                time: newState.elapsedTime
+            )
+            do {
+                try environment.coredata.saveGameModel(gameModel)
+            } catch {
+                print(error)
+            }
             return
         }
         
         if newState.status == .lost && previousState.status != .lost {
             haptics.notify(.error)
+            
+            let gameModel = GameModel(
+                date: Date(),
+                status: newState.status,
+                gameMode: newState.gameModel.gameMode,
+                moveHistory: newState.moveHistory,
+                time: newState.elapsedTime
+            )
+            do {
+                try environment.coredata.saveGameModel(gameModel)
+            } catch {
+                print(error)
+            }
+
             return
         }
         

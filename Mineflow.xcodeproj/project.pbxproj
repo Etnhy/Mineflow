@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D89FBD3CFDCE79D46D4C1703 /* Pods_Mineflow.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A19C1DEF2B525DDEC4C4B15 /* Pods_Mineflow.framework */; };
+		7AFB3D6F2EC34C1C004FE2AC /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 7AFB3D6E2EC34C1C004FE2AC /* GoogleMobileAds */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,12 +28,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		6C6C645CDE597BA23E5C141D /* Pods-Mineflow.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mineflow.release.xcconfig"; path = "Target Support Files/Pods-Mineflow/Pods-Mineflow.release.xcconfig"; sourceTree = "<group>"; };
 		7A71FBFB2EB38ADD00A9A6CA /* Mineflow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mineflow.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A71FC082EB38ADE00A9A6CA /* MineflowTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MineflowTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A71FC122EB38ADE00A9A6CA /* MineflowUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MineflowUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		8A19C1DEF2B525DDEC4C4B15 /* Pods_Mineflow.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Mineflow.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D9D9878A29DC17F99D338BFC /* Pods-Mineflow.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mineflow.debug.xcconfig"; path = "Target Support Files/Pods-Mineflow/Pods-Mineflow.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -57,15 +54,11 @@
 		};
 		7A71FC0B2EB38ADE00A9A6CA /* MineflowTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-			);
 			path = MineflowTests;
 			sourceTree = "<group>";
 		};
 		7A71FC152EB38ADE00A9A6CA /* MineflowUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-			);
 			path = MineflowUITests;
 			sourceTree = "<group>";
 		};
@@ -76,7 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D89FBD3CFDCE79D46D4C1703 /* Pods_Mineflow.framework in Frameworks */,
+				7AFB3D6F2EC34C1C004FE2AC /* GoogleMobileAds in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -104,8 +97,6 @@
 				7A71FC0B2EB38ADE00A9A6CA /* MineflowTests */,
 				7A71FC152EB38ADE00A9A6CA /* MineflowUITests */,
 				7A71FBFC2EB38ADD00A9A6CA /* Products */,
-				DFFFEA84822256C8053A0C19 /* Pods */,
-				82028BB7F67519FBA15E5FFF /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -119,24 +110,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		82028BB7F67519FBA15E5FFF /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				8A19C1DEF2B525DDEC4C4B15 /* Pods_Mineflow.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		DFFFEA84822256C8053A0C19 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				D9D9878A29DC17F99D338BFC /* Pods-Mineflow.debug.xcconfig */,
-				6C6C645CDE597BA23E5C141D /* Pods-Mineflow.release.xcconfig */,
-			);
-			name = Pods;
-			path = Pods;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -144,11 +117,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7A71FC1C2EB38ADE00A9A6CA /* Build configuration list for PBXNativeTarget "Mineflow" */;
 			buildPhases = (
-				29582C02DA7FBBD20E15D816 /* [CP] Check Pods Manifest.lock */,
 				7A71FBF72EB38ADD00A9A6CA /* Sources */,
 				7A71FBF82EB38ADD00A9A6CA /* Frameworks */,
 				7A71FBF92EB38ADD00A9A6CA /* Resources */,
-				332479405799966D55DF2E94 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -236,6 +207,9 @@
 			);
 			mainGroup = 7A71FBF22EB38ADD00A9A6CA;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				7AFB3D6D2EC34C1C004FE2AC /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 7A71FBFC2EB38ADD00A9A6CA /* Products */;
 			projectDirPath = "";
@@ -271,48 +245,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		29582C02DA7FBBD20E15D816 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Mineflow-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		332479405799966D55DF2E94 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Mineflow/Pods-Mineflow-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Mineflow/Pods-Mineflow-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Mineflow/Pods-Mineflow-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		7A71FBF72EB38ADD00A9A6CA /* Sources */ = {
@@ -477,7 +409,6 @@
 		};
 		7A71FC1D2EB38ADE00A9A6CA /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D9D9878A29DC17F99D338BFC /* Pods-Mineflow.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -518,7 +449,6 @@
 		};
 		7A71FC1E2EB38ADE00A9A6CA /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6C6C645CDE597BA23E5C141D /* Pods-Mineflow.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -681,6 +611,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		7AFB3D6D2EC34C1C004FE2AC /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.13.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		7AFB3D6E2EC34C1C004FE2AC /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7AFB3D6D2EC34C1C004FE2AC /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 7A71FBF32EB38ADD00A9A6CA /* Project object */;
 }

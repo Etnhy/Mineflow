@@ -9,6 +9,7 @@ enum NavigationRoute: Hashable {
     case game
     case settings
     case theme
+    case statistic
     
 }
 
@@ -29,6 +30,8 @@ struct AppState {
     var settingsState: SettingsState?
     
     var themeState: ThemeState?
+    
+    var statisticState: StatisticState?
     
     var navigationPath: [NavigationRoute] = []
     

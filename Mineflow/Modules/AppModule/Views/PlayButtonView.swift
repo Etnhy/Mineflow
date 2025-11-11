@@ -39,7 +39,7 @@ struct PlayButtonView: View {
                 .frame(width: 30)
 
             VStack(alignment: .leading, spacing: 2) {
-                Text(model.name)
+                Text(model.gameMode.title)
                     .font(.sofia(weight: .bold700, size: 20))
                     .foregroundColor(theme.primaryTextColor)
                 

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import GoogleMobileAds
 
 @main
 struct MineflowApp: App {
@@ -23,7 +24,19 @@ struct MineflowApp: App {
     
     var body: some Scene {
         WindowGroup {
-            AppView(initialState: Self.loadedState, environment: Self.environment)
+            ZStack {
+//                Self.loadedState.currentTheme.backgroundColor.ignoresSafeArea()
+                AppView(initialState: Self.loadedState, environment: Self.environment)
+                    .onAppear {
+                        MobileAds.shared.start()
+                    }
+                
+            }
+            .safeAreaInset(edge: .bottom) {
+                BannerAdsView()
+
+            }
         }
+        
     }
 }

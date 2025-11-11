@@ -13,11 +13,14 @@ enum AppAction {
     case game(GameAction)
     case settings(SettingsAction)
     case theme(ThemeAction)
+    case statisticAction(StatisticAction)
     
-    case navigateToGame(StartGameModel)//(rows: Int, cols: Int, totalMines: Int)
+    case navigateToGame(StartGameModel)
     case navigateToSettings
     
     case navigateToThemeView
+    
+    case navigateToStatisticsView
     
     case dismissSheet
     case navigationPathChanged([NavigationRoute])

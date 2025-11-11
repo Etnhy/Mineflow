@@ -14,12 +14,12 @@ struct GameStatusOverlay: View {
     
     var body: some View {
         VStack(spacing: 20) {
-            Text(status == .won ? "Победа! 😎" : "Поражение 😵")
+            Text(status == .won ? "WWIN😎" : "LOST LOH 😵")
                 .font(.largeTitle)
                 .bold()
                 .foregroundColor(.white)
             
-            Button("Играть снова", action: onRestart)
+            Button("play again", action: onRestart)
                 .font(.title2)
                 .padding()
                 .background(Color.blue)

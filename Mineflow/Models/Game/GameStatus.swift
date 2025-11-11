@@ -6,7 +6,7 @@
 //
 
 
-enum GameStatus: Equatable {
+enum GameStatus: Int, Equatable {
     case initial
     case playing
     case won
