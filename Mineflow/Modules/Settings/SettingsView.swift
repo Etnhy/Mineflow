@@ -9,10 +9,18 @@ import SwiftUI
 
 struct SettingsView: View {
     var state: SettingsState
-
+    
     var send: (SettingsAction) -> Void
     
     var body: some View {
+        
+        let hapticIsOnBinding = Binding(
+            get: { state.hapticIsOn },
+            set: { isToggled in
+                send(.hapticToggleChanged(isOn: isToggled))
+            }
+        )
+        
         ZStack {
             BackgroundView(theme: state.theme)
             VStack {
@@ -22,13 +30,23 @@ struct SettingsView: View {
                     Text("Theme menu")
                 }
                 
+                Button {
+                    
+                } label: {
+                    HStack {
+                        Text("Haptic")
+                        Toggle("", isOn: hapticIsOnBinding)
+                    }
+                }
+
+                
             }
         }
     }
 }
 
 #Preview {
-    SettingsView(state: .init(theme: .candy),send: { action in
+    SettingsView(state: .init(theme: .candy, hapticIsOn: false),send: { action in
         print(action)
     })
 }

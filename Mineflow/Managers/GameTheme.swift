@@ -8,10 +8,20 @@
 
 import SwiftUI
 
-struct GameTheme: Equatable, Identifiable,Hashable {
+enum GameModelThemeIDs: String {
+    case classicID =   "classic_theme_id"
+    case nightModeID = "nightmode_theme_id"
+    case midnightID = "midnight_theme_id"
+    case meadowID =    "meadow_theme_id"
+    case candyID =     "candy_theme_id"
+    case oledDarkID =  "oled_dark_theme_id"
+
+}
+
+struct GameTheme: Equatable, Identifiable, Hashable {
     
     var name: String
-    let id: UUID = UUID()
+    let id: String
     
     // MARK: - Game Board Colors
     var cellClosed: Color
@@ -26,6 +36,8 @@ struct GameTheme: Equatable, Identifiable,Hashable {
     var flagImage: Image?
     
     var questionMarkIcon: String
+    var questionImage: Image?
+    
     var cornerRadius: CGFloat
     
 
@@ -44,7 +56,7 @@ struct GameTheme: Equatable, Identifiable,Hashable {
     }
     
     static let classic = GameTheme(
-        name: "Classic",
+        name: "Classic", id: GameModelThemeIDs.classicID.rawValue,
         cellClosed: Color(.systemGray2),
         cellOpened: Color(.systemGray4),
         cellBorder: Color.black.opacity(0.3),
@@ -56,6 +68,7 @@ struct GameTheme: Equatable, Identifiable,Hashable {
         flagIcon: "🚩",
         flagImage: Image(.classicFlag),
         questionMarkIcon: "❓",
+        questionImage: Image(.questionClassic),
         cornerRadius: 0,
 
         backgroundColor: Color(.darkGray),
@@ -66,7 +79,7 @@ struct GameTheme: Equatable, Identifiable,Hashable {
     )
     
     static let nightMode = GameTheme(
-        name: "Nightmode",
+        name: "Nightmode", id: GameModelThemeIDs.nightModeID.rawValue,
         cellClosed: Color(white: 0.2),
         cellOpened: Color(white: 0.1),
         cellBorder: Color.white.opacity(0.2),
@@ -78,6 +91,8 @@ struct GameTheme: Equatable, Identifiable,Hashable {
         flagIcon: "flag.fill",
         flagImage: Image(.nightModeFlag),
         questionMarkIcon: "questionmark.diamond.fill",
+        questionImage: Image(.questionNightMode),
+
         cornerRadius: 8.0,
 
         backgroundColor: Color(white: 0.15),
@@ -88,7 +103,7 @@ struct GameTheme: Equatable, Identifiable,Hashable {
     )
     
     static let midnight = GameTheme(
-        name: "Midnight",
+        name: "Midnight", id: GameModelThemeIDs.midnightID.rawValue,
         cellClosed: Color(red: 45/255, green: 45/255, blue: 50/255),
         cellOpened: Color(red: 30/255, green: 30/255, blue: 35/255),
         cellBorder: Color.black.opacity(0.5),
@@ -100,6 +115,8 @@ struct GameTheme: Equatable, Identifiable,Hashable {
         flagIcon: "pin.fill",
         flagImage: Image(.midnightFlag),
         questionMarkIcon: "questionmark.circle.fill",
+        questionImage: Image(.questionMidnight),
+
         cornerRadius: 4.0,
 
         backgroundColor: Color(red: 30/255, green: 30/255, blue: 35/255),
@@ -110,7 +127,7 @@ struct GameTheme: Equatable, Identifiable,Hashable {
     )
     
     static let meadow = GameTheme(
-        name: "Meadow",
+        name: "Meadow", id: GameModelThemeIDs.meadowID.rawValue,
         cellClosed: Color(red: 160/255, green: 200/255, blue: 120/255),
         cellOpened: Color(red: 210/255, green: 180/255, blue: 140/255), // "Земля"
         cellBorder: Color(red: 90/255, green: 60/255, blue: 40/255).opacity(0.5),
@@ -122,6 +139,8 @@ struct GameTheme: Equatable, Identifiable,Hashable {
         flagIcon: "🌸",
         flagImage: Image(.meadowFlag),
         questionMarkIcon: "☘️",
+        questionImage: Image(.questionMeadow),
+
         cornerRadius: 10.0,
 
         backgroundColor: Color(red: 240/255, green: 255/255, blue: 235/255),
@@ -132,7 +151,7 @@ struct GameTheme: Equatable, Identifiable,Hashable {
     )
     
     static let candy = GameTheme(
-        name: "Candy",
+        name: "Candy", id: GameModelThemeIDs.candyID.rawValue,
         cellClosed: Color(red: 1.0, green: 0.7, blue: 0.85),
         cellOpened: Color(red: 0.95, green: 0.95, blue: 1.0),
         cellBorder: Color.white.opacity(0.7),
@@ -144,6 +163,8 @@ struct GameTheme: Equatable, Identifiable,Hashable {
         flagIcon: "heart.fill",
         flagImage: Image(.candyFlag),
         questionMarkIcon: "wand.and.stars",
+        questionImage: Image(.questionCandy),
+
         cornerRadius: 12.0,
 
         backgroundColor: Color(red: 1.0, green: 0.9, blue: 0.95),
@@ -154,7 +175,7 @@ struct GameTheme: Equatable, Identifiable,Hashable {
     )
     
     static let oledDark = GameTheme(
-        name: "Oled Dark",
+        name: "Oled Dark", id: GameModelThemeIDs.oledDarkID.rawValue,
         cellClosed: Color(white: 0.1),
         cellOpened: Color.black,
         cellBorder: Color.gray.opacity(0.4),
@@ -166,6 +187,8 @@ struct GameTheme: Equatable, Identifiable,Hashable {
         flagIcon: "pin.fill",
         flagImage: Image(.oledDarkFlag),
         questionMarkIcon: "questionmark",
+        questionImage: Image(.questionOleddark),
+
         cornerRadius: 4,
 
         backgroundColor: .black,

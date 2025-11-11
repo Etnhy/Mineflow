@@ -15,8 +15,8 @@ func gameReducer(state: inout GameState?, action: GameAction) -> Void {
     guard var newState = state else { return }
     switch action {
         
-    case .restartGame(let r, let c, let m):
-        newState = GameState(rows: r, cols: c, totalMines: m)
+    case .restartGame(let game):
+        newState = GameState(gameModel: game)
         
     case .timerTick:
         guard newState.status == .playing else { return }
@@ -28,9 +28,9 @@ func gameReducer(state: inout GameState?, action: GameAction) -> Void {
         
         if newState.status == .initial {
             newState.board = generateBoard(
-                rows: newState.rows,
-                cols: newState.cols,
-                mines: newState.totalMines,
+                rows: newState.gameModel.rows,
+                cols: newState.gameModel.cols,
+                mines: newState.gameModel.totalMines,
                 safeStart: (r: r, c: c)
             )
             newState.status = .playing
@@ -40,7 +40,7 @@ func gameReducer(state: inout GameState?, action: GameAction) -> Void {
 
         if cell.isOpened && cell.surroundingMines > 0 {
             
-            let neighbors = getNeighbors(r: r, c: c, rows: newState.rows, cols: newState.cols)
+            let neighbors = getNeighbors(r: r, c: c, rows: newState.gameModel.rows, cols: newState.gameModel.cols)
             let flaggedNeighbors = neighbors.filter { newState.board[$0.r][$0.c].flagState == .flagged }.count
             
             
@@ -83,8 +83,8 @@ func gameReducer(state: inout GameState?, action: GameAction) -> Void {
                 
                 if newState.isGameWon {
                     newState.status = .won
-                    for r_idx in 0..<newState.rows {
-                         for c_idx in 0..<newState.cols {
+                    for r_idx in 0..<newState.gameModel.rows {
+                        for c_idx in 0..<newState.gameModel.cols {
                              
                              let currentCell = newState.board[r_idx][c_idx]
                              
@@ -113,8 +113,8 @@ func gameReducer(state: inout GameState?, action: GameAction) -> Void {
             newState.status = .lost
             newState.board[r][c].isOpened = true
             
-            for r_idx in 0..<newState.rows {
-                 for c_idx in 0..<newState.cols {
+            for r_idx in 0..<newState.gameModel.rows {
+                for c_idx in 0..<newState.gameModel.cols {
                      
                      let currentCell = newState.board[r_idx][c_idx]
                      
@@ -139,8 +139,8 @@ func gameReducer(state: inout GameState?, action: GameAction) -> Void {
         
         if newState.isGameWon {
             newState.status = .won
-            for r_idx in 0..<newState.rows {
-                 for c_idx in 0..<newState.cols {
+            for r_idx in 0..<newState.gameModel.rows {
+                for c_idx in 0..<newState.gameModel.cols {
                      
                      let currentCell = newState.board[r_idx][c_idx]
                      
@@ -272,7 +272,7 @@ func generateEmptyBoard(rows: Int, cols: Int) -> [[Cell]] {
 
 
 private func openCell(_ state: inout GameState, r: Int, c: Int) {
-    guard r >= 0 && r < state.rows && c >= 0 && c < state.cols else { return }
+    guard r >= 0 && r < state.gameModel.rows && c >= 0 && c < state.gameModel.cols else { return }
     let cell = state.board[r][c]
     print(r,c)
     if cell.isOpened || cell.isMine || cell.flagState != .none {
@@ -282,7 +282,7 @@ private func openCell(_ state: inout GameState, r: Int, c: Int) {
     state.board[r][c].isOpened = true
     
     if cell.surroundingMines == 0 {
-        let neighbors = getNeighbors(r: r, c: c, rows: state.rows, cols: state.cols)
+        let neighbors = getNeighbors(r: r, c: c, rows: state.gameModel.rows, cols: state.gameModel.cols)
         for neighbor in neighbors {
             openCell(&state, r: neighbor.r, c: neighbor.c)
         }

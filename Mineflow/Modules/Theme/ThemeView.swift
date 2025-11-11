@@ -72,9 +72,9 @@ struct ThemeView: View {
     private func gameField(theme: GameTheme) -> some View {
         GeometryReader { geometry in
             let boardView = Grid(horizontalSpacing: cellSpacing, verticalSpacing: cellSpacing) {
-                ForEach(0..<state.testState.rows, id: \.self) { row in
+                ForEach(0..<state.testState.gameModel.rows, id: \.self) { row in
                     GridRow {
-                        ForEach(0..<state.testState.cols, id: \.self) { col in
+                        ForEach(0..<state.testState.gameModel.cols, id: \.self) { col in
                             let cell = state.testState.board[row][col]
                             
                             CellView(theme: theme,cell: cell)

@@ -10,8 +10,14 @@ import Combine
 
 struct AppEnvironment {
     var haptics: HapticsClient
+    let settings: SettingsRepository
     
-    static let env = AppEnvironment(haptics: HapticsClient.live)
+    static let env = AppEnvironment(
+        haptics: HapticsClient.live,
+        settings: SettingsRepository()
+    )
+    
+    
 }
 
 
@@ -19,7 +25,7 @@ struct AppEnvironment {
 final class AppStore: ObservableObject {
     
     @Published private(set) var state: AppState
-
+    
     let environment: AppEnvironment
     
     init(state: AppState, env: AppEnvironment) {
@@ -33,10 +39,51 @@ final class AppStore: ObservableObject {
         var newState = self.state
         
         appReducer(state: &newState, action: action)
-
+        
         self.state = newState
-
+        
         handleEffects(action: action, state: &newState,previousState: previousState)
+    }
+    
+    
+    
+    
+    private func appReducer(state: inout AppState, action: AppAction) {
+        switch action {
+        case .game(let gameAction):
+            gameReducer(state: &state.gameFeature, action: gameAction)
+            
+        case .navigateToGame(let game):
+            let gameState = GameState(gameModel: game)
+            state.gameFeature = gameState
+            state.navigationPath.append(.game)
+            
+        case .dismissSheet:
+            state.presentedSheet = nil
+            
+        case .navigationPathChanged(let path):
+            state.navigationPath = path
+            
+        case .navigateToSettings:
+            let settingsState = SettingsState(
+                theme: state.currentTheme,
+                hapticIsOn: environment.settings.hapticIsOn
+            )
+            state.settingsState = settingsState
+            
+            state.navigationPath.append(.settings)
+            
+        case .settings(let settingsAction):
+            settingsReducer(state: &state.settingsState, action: settingsAction)
+        case .navigateToThemeView:
+            let themeState = ThemeState(theme: state.currentTheme)
+            state.themeState = themeState
+            state.navigationPath.append(.theme)
+            
+        case .theme(let themeAction):
+            themeReducer(state: &state.themeState, action: themeAction)
+        }
+        
     }
     
     
@@ -46,7 +93,7 @@ final class AppStore: ObservableObject {
         case .game(let gameAction):
             handleGameEffects(
                 action: gameAction,
-                state: state.gameFeature,
+                appState: state,
                 previousState: previousState.gameFeature
             )
         case .settings(let settingsAction):
@@ -58,42 +105,6 @@ final class AppStore: ObservableObject {
         }
     }
     
-    private func appReducer(state: inout AppState, action: AppAction) {
-        switch action {
-        case .game(let gameAction):
-            gameReducer(state: &state.gameFeature, action: gameAction)
-            
-        case .navigateToGame(let rows,let cols, let mines):
-            let gameState = GameState(rows: rows, cols: cols, totalMines: mines)
-            state.gameFeature = gameState
-            state.navigationPath.append(.game)
-            
-        case .dismissSheet:
-            state.presentedSheet = nil
-            
-        case .navigationPathChanged(let path):
-            state.navigationPath = path
-            
-        case .navigateToSettings:
-            let settingsState = SettingsState(theme: state.currentTheme)
-            state.settingsState = settingsState
-            
-            state.navigationPath.append(.settings)
-            
-        case .settings(let settingsAction):
-            settingsReducer(state: &state.settingsState, action: settingsAction)
-        case .navigateToThemeView:
-            let themeState = ThemeState(theme: state.currentTheme)
-            state.themeState = themeState
-            state.navigationPath.append(.theme)
-
-        case .theme(let themeAction):
-            themeReducer(state: &state.themeState, action: themeAction)
-        }
-        
-    }
-    
-    
     
     
 }
@@ -104,7 +115,7 @@ private extension AppStore {
         case .themeChanged(let theme):
             state.currentTheme = theme
             state.settingsState?.theme = theme
-//            UserDefaults.standard.set(theme.id, forKey: "theme")
+            environment.settings.saveTheme(theme)
         }
     }
 }
@@ -114,54 +125,62 @@ private extension AppStore {
         switch action {
         case .themeMenuTapped:
             send(.navigateToThemeView)
+        case .hapticToggleChanged(isOn: let isOn):
+            environment.settings.saveHapticPreference(isOn)
         }
     }
 }
 
- //MARK: - Handle Game Effects
+//MARK: - Handle Game Effects
 private extension AppStore {
-     func handleGameEffects(action: GameAction, state: GameState?, previousState: GameState?) {
-        guard let newState = state, let previousState = previousState else { return }
-            let haptics = self.environment.haptics
-            if newState.status == .won && previousState.status != .won {
-                haptics.notify(.success)
-//                print(state?.moveHistory)
-                return
-            }
-            
-            if newState.status == .lost && previousState.status != .lost {
-                haptics.notify(.error)
-                return
-            }
-                        
-            switch action {
-            case .tapCell:
-                let newOpened = newState.board.flatMap { $0 }.filter { $0.isOpened }.count
-                let oldOpened = previousState.board.flatMap { $0 }.filter { $0.isOpened }.count
-                
-                if newOpened > oldOpened {
-                    haptics.play(.light)
-                }
-            case .longPressCell:
-                let newQuestionMarkCount = newState.board
-                    .flatMap { $0 }
-                    .filter { $0.flagState == .questionMarked }
-                    .count
-                
-                let oldQuestionMarkCount = previousState.board
-                    .flatMap { $0 }
-                    .filter { $0.flagState == .questionMarked }
-                    .count
-                
-                if newState.flagsUsed != previousState.flagsUsed || newQuestionMarkCount != oldQuestionMarkCount {
-                    haptics.play(.medium)
-                }
-            case .restartGame:
-                haptics.play(.medium)
-                
-            case .timerTick:
-                break
-            }
+    func handleGameEffects(action: GameAction, appState: AppState, previousState: GameState?) {
+        
+        guard appState.settingsState?.hapticIsOn == true else {
+            return
         }
-
+        
+        guard let newState = state.gameFeature, let previousState = previousState else { return }
+        
+        let haptics = self.environment.haptics
+        if newState.status == .won && previousState.status != .won {
+            haptics.notify(.success)
+            //print(state?.moveHistory)
+            return
+        }
+        
+        if newState.status == .lost && previousState.status != .lost {
+            haptics.notify(.error)
+            return
+        }
+        
+        switch action {
+        case .tapCell:
+            let newOpened = newState.board.flatMap { $0 }.filter { $0.isOpened }.count
+            let oldOpened = previousState.board.flatMap { $0 }.filter { $0.isOpened }.count
+            
+            if newOpened > oldOpened {
+                haptics.play(.light)
+            }
+        case .longPressCell:
+            let newQuestionMarkCount = newState.board
+                .flatMap { $0 }
+                .filter { $0.flagState == .questionMarked }
+                .count
+            
+            let oldQuestionMarkCount = previousState.board
+                .flatMap { $0 }
+                .filter { $0.flagState == .questionMarked }
+                .count
+            
+            if newState.flagsUsed != previousState.flagsUsed || newQuestionMarkCount != oldQuestionMarkCount {
+                haptics.play(.medium)
+            }
+        case .restartGame:
+            haptics.play(.medium)
+            
+        case .timerTick:
+            break
+        }
+    }
+    
 }

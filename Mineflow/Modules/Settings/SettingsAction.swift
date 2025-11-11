@@ -12,4 +12,6 @@ enum SettingsAction {
 //    case themeChanged(GameTheme)
     
     case themeMenuTapped
+    
+    case hapticToggleChanged(isOn: Bool)
 }

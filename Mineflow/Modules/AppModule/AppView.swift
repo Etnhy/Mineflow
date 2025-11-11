@@ -9,7 +9,14 @@ import SwiftUI
 
 struct AppView: View {
     
-    @StateObject private var store = AppStore(state: .init(), env: .env)
+    @StateObject private var store: AppStore//(state: .init(), env: .env)
+    
+    init(initialState: AppState, environment: AppEnvironment) {
+            _store = StateObject(wrappedValue: AppStore(
+                state: initialState,
+                env: environment
+            ))
+        }
     
     var body: some View {
         
@@ -36,7 +43,18 @@ struct AppView: View {
                 BackgroundView(theme: theme)
                 
                 VStack {
-                    navigateButtons
+                    VStack(spacing: scaleHeight(100)) {
+                        navigateButtons
+                            .padding(.top,scaleHeight(150))
+
+                        Button {
+                            store.send(.navigateToSettings)
+
+                        } label: {
+                            Text("Settings")
+                        }
+
+                    }
                 }
                 .navigationDestination(for: NavigationRoute.self) { route in
                     switch route {
@@ -63,17 +81,17 @@ struct AppView: View {
                     }
                 }
                 
-                .toolbar {
-                    ToolbarItem(placement: .topBarLeading) {
-                        Button {
-                            store.send(.navigateToSettings)
-                        } label: {
-                            Image(systemName: "gear")
-                                .foregroundStyle(.black)
-                        }
-                        
-                    }
-                }
+//                .toolbar {
+//                    ToolbarItem(placement: .topBarLeading) {
+//                        Button {
+//                            store.send(.navigateToSettings)
+//                        } label: {
+//                            Image(systemName: "gear")
+//                                .foregroundStyle(.black)
+//                        }
+//                        
+//                    }
+//                }
             }
             
         }
@@ -85,28 +103,28 @@ struct AppView: View {
         let theme = store.state.currentTheme
         
         VStack {
-            Button {
-                store.send(.navigateToGame(rows: 9, cols: 9, totalMines: 9))
-            } label: {
-                Text("play 9x9 9 bomb")
-            }
-            Button {
-                store.send(.navigateToGame(rows: 16, cols: 16, totalMines: 40))
-            } label: {
-                Text("play 16x16 40 bomb")
-            }
-            Button {
-                store.send(.navigateToGame(rows: 32, cols: 16, totalMines: 99))
-            } label: {
-                Text("play, 32x16 99 bomb")
+            ForEach(StartGameModel.allCeses, id: \.id) { model in
+                Button {
+                    
+                    store.send(.navigateToGame(model))
+                } label: {
+                    PlayButtonView(theme: store.state.currentTheme, model: model)
+                }
+
             }
             
         }
         .foregroundStyle(theme.accentColor)
-        
+        .font(.sofia(weight: .semiBold600, size: 18))
     }
 }
 
 #Preview {
-    AppView()
+    AppView(
+        initialState: .init(),
+        environment: AppEnvironment(
+            haptics: .noop,
+            settings: .init()
+        )
+    )
 }

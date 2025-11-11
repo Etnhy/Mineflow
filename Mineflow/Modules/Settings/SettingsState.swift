@@ -9,4 +9,5 @@ import Foundation
 
 struct SettingsState {
     var theme: GameTheme
+    var hapticIsOn: Bool
 }

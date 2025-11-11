@@ -12,8 +12,9 @@ func settingsReducer(state: inout SettingsState?, action: SettingsAction) {
         return
     }
     switch action {
-    case .themeMenuTapped:
-        break
+    case .themeMenuTapped: break
+    case .hapticToggleChanged(isOn: let isOn):
+        newState.hapticIsOn = isOn
     }
     
     

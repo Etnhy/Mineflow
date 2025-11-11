@@ -37,7 +37,7 @@ struct GameView: View {
                 GameHeaderView(theme: theme,
                     status: state.status,
                     elapsedTime: state.elapsedTime,
-                    flagsRemaining: state.totalMines - state.flagsUsed,
+                               flagsRemaining: state.gameModel.totalMines - state.flagsUsed,
                     onRestart: restartAction
                 )
                 
@@ -62,9 +62,9 @@ struct GameView: View {
     private func gameField() -> some View {
         GeometryReader { geometry in
             let boardView = Grid(horizontalSpacing: cellSpacing, verticalSpacing: cellSpacing) {
-                ForEach(0..<state.rows, id: \.self) { row in
+                ForEach(0..<state.gameModel.rows, id: \.self) { row in
                     GridRow {
-                        ForEach(0..<state.cols, id: \.self) { col in
+                        ForEach(0..<state.gameModel.cols, id: \.self) { col in
                             let cell = state.board[row][col]
                             
                             CellView(theme: theme,cell: cell)
@@ -119,7 +119,7 @@ struct GameView: View {
     }
     
     private func restartAction() {
-        send(.restartGame(rows: state.rows, cols: state.cols, mines: state.totalMines))
+        send(.restartGame(state.gameModel))
         withAnimation {
             finalScale = 1.0
             finalOffset = .zero
@@ -128,8 +128,8 @@ struct GameView: View {
     
     private func calculateCellSize(geometry: GeometryProxy) -> CGFloat {
         let g = geometry.size
-        let rows = CGFloat(state.rows)
-        let cols = CGFloat(state.cols)
+        let rows = CGFloat(state.gameModel.rows)
+        let cols = CGFloat(state.gameModel.cols)
         
         let totalHorizontalSpace = (cols - 1) * cellSpacing + padding * 2
         let totalVerticalSpace = (rows - 1) * cellSpacing + padding * 2
@@ -147,8 +147,8 @@ struct GameView: View {
         let gCenter = CGPoint(x: g.width / 2, y: g.height / 2)
         
         let cellSize = calculateCellSize(geometry: geometry)
-        let rows = CGFloat(state.rows)
-        let cols = CGFloat(state.cols)
+        let rows = CGFloat(state.gameModel.rows)
+        let cols = CGFloat(state.gameModel.cols)
         
         let boardModelWidth = (cellSize * cols) + (cellSpacing * (cols - 1)) + (padding * 2)
         let boardModelHeight = (cellSize * rows) + (cellSpacing * (rows - 1)) + (padding * 2)
@@ -186,7 +186,7 @@ struct GameView: View {
         let row = Int(floor(tapInCells.y / (cellSize + cellSpacing)))
         
         
-        guard row >= 0 && row < state.rows && col >= 0 && col < state.cols else {
+        guard row >= 0 && row < state.gameModel.rows && col >= 0 && col < state.gameModel.cols else {
             return nil
         }
         
@@ -200,162 +200,6 @@ struct GameView: View {
         return (row, col)
     }
 }
-
-
-struct GameHeaderView: View {
-    let theme: GameTheme
-    let status: GameStatus
-    let elapsedTime: Double
-    let flagsRemaining: Int
-    let onRestart: () -> Void
-    
-    var body: some View {
-        HStack {
-            Text("🚩 \(flagsRemaining)")
-                .font(.system(.title, design: .monospaced).bold())
-            
-            Spacer()
-            
-            Button(action: onRestart) {
-                Text(smileyForStatus(status))
-                    .font(.largeTitle)
-            }
-            
-            Spacer()
-            
-            Text(String(format: "%.0f", elapsedTime))
-                .font(.system(.title, design: .monospaced).bold())
-        }
-        .padding(.horizontal, 20)
-        .padding(.vertical, 10)
-        .background(theme.headerBackgroundColor)
-    }
-    
-    private func smileyForStatus(_ status: GameStatus) -> String {
-        switch status {
-        case .initial, .playing: return "🙂"
-        case .won: return "😎"
-        case .lost: return "😵"
-        }
-    }
-}
-
-struct CellView: View {
-    var theme: GameTheme
-    let cell: Cell
-
-    var cellIsOpenMine: Bool {
-        cell.isOpened && cell.isMine
-    }
-    
-    
-    var body: some View {
-        ZStack {
-            let baseColor = cell.isOpened ? theme.cellOpened : theme.cellClosed
-            
-            ZStack {
-                RoundedRectangle(cornerRadius: theme.cornerRadius)
-                    .fill(cellIsOpenMine ? .red : baseColor)
-                    .aspectRatio(1, contentMode: .fit)
-                RoundedRectangle(cornerRadius: theme.cornerRadius)
-                    .stroke(Color.black.opacity(0.3), lineWidth: 0.5)
-                    .aspectRatio(1, contentMode: .fit)
-                
-            }
-            
-
-            if cell.isOpened {
-                if cell.isMine {
-                    if let image = theme.bombImage {
-                        image
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: scaleHeight(35), height: scaleHeight(35))
-                    } else {
-                        TextOrIcon(theme.bombIcon)
-                    }
-                } else if cell.surroundingMines > 0 {
-                    Text("\(cell.surroundingMines)")
-                        .bold()
-                        .font(.callout)
-                    
-                        .foregroundColor(theme.numberColors[cell.surroundingMines - 1])
-                } else {
-                    EmptyView()
-                }
-            } else {
-                switch cell.flagState {
-                case .flagged:
-                    if let image = theme.flagImage {
-                        image
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: scaleHeight(35), height: scaleHeight(35))
-
-                    }
-                    
-                case .questionMarked:
-                    TextOrIcon(theme.questionMarkIcon)
-                case .none:
-                    EmptyView()
-                }
-            }
-        }
-    }
-        
-    
-    private func colorForNumber(_ number: Int) -> Color {
-        switch number {
-        case 1: return .blue
-        case 2: return .green
-        case 3: return .red
-        case 4: return .purple
-        case 5: return .orange
-        case 6: return .cyan
-        case 7: return .pink
-        case 8: return .black
-        default: return .black
-        }
-    }
-    
-    @ViewBuilder
-    private func TextOrIcon(_ iconName: String) -> some View {
-        
-        if iconName.count == 1 {
-            Text(iconName)
-                .font(.caption)
-        } else {
-            Image(systemName: iconName)
-                .font(.caption)
-        }
-    }
-    
-}
-
-// MARK: - 4. Оверлей Статуса Игры
-struct GameStatusOverlay: View {
-    let status: GameStatus
-    let onRestart: () -> Void
-    
-    var body: some View {
-        VStack(spacing: 20) {
-            Text(status == .won ? "Победа! 😎" : "Поражение 😵")
-                .font(.largeTitle)
-                .bold()
-                .foregroundColor(.white)
-            
-            Button("Играть снова", action: onRestart)
-                .font(.title2)
-                .padding()
-                .background(Color.blue)
-                .foregroundColor(.white)
-                .cornerRadius(10)
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.black.opacity(0.75))
-    }
-}
-
 
 
 #Preview {

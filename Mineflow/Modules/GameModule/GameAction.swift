@@ -15,7 +15,7 @@ enum LoggedAction: Equatable, Codable {
 enum GameAction {
     case tapCell(row: Int, col: Int)
     case longPressCell(row: Int, col: Int)
-    case restartGame(rows: Int, cols: Int, mines: Int)
+    case restartGame(StartGameModel)//(rows: Int, cols: Int, mines: Int)
     case timerTick
     
 }

@@ -16,9 +16,10 @@ struct GameModel {
 
 struct GameState: Equatable {
     var board: [[Cell]] = []
-    let rows: Int
-    let cols: Int
-    let totalMines: Int
+//    let rows: Int
+//    let cols: Int
+//    let totalMines: Int
+    let gameModel: StartGameModel
     
     var status: GameStatus
     var elapsedTime: Double
@@ -27,21 +28,22 @@ struct GameState: Equatable {
     var moveHistory: [LoggedAction] = []
     
     var nonMineCellsToOpen: Int {
-        return (rows * cols) - totalMines - board.flatMap { $0 }.filter { $0.isOpened }.count
+        return (gameModel.rows * gameModel.cols) - gameModel.totalMines - board.flatMap { $0 }.filter { $0.isOpened }.count
     }
     
     var isGameWon: Bool {
         return nonMineCellsToOpen == 0
     }
     
-    init(rows: Int, cols: Int, totalMines: Int) {
-        self.rows = rows
-        self.cols = cols
-        self.totalMines = totalMines
+    init(gameModel: StartGameModel/*rows: Int, cols: Int, totalMines: Int*/) {
+        self.gameModel = gameModel
+//        self.rows = rows
+//        self.cols = cols
+//        self.totalMines = totalMines
         self.status = .initial
         self.elapsedTime = 0.0
         self.flagsUsed = 0
-        self.board = generateEmptyBoard(rows: rows, cols: cols)
+        self.board = generateEmptyBoard(rows: gameModel.rows, cols: gameModel.cols)
 
     }
 }
@@ -49,7 +51,7 @@ struct GameState: Equatable {
 extension GameState {
    static let testState: GameState = {
         // 1. Создаем пустой 9x9 стейт
-        var state = GameState(rows: 9, cols: 9, totalMines: 10)
+       var state = GameState(gameModel: .easy)
         
         // 2. Вручную "рисуем" нашу тестовую доску
         
