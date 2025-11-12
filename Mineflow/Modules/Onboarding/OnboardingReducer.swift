@@ -14,7 +14,7 @@ func onboardingReducer(state: inout OnboardingState?,action: OnboardingAction) -
         state = nil
         return
     case .next:
-        newState.currentIndex = min(newState.onboardingModels.count + 1, newState.currentIndex + 1)
+        newState.currentIndex = min(newState.onboardingModels.count, newState.currentIndex + 1)
         state = newState
     }
     

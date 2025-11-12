@@ -139,7 +139,7 @@ private extension AppStore {
         switch action {
         case .next:
             guard let state = state.onboardingState else { return }
-            if state.currentIndex > state.onboardingModels.count  {
+            if state.currentIndex == state.onboardingModels.count  {
                 Task { @MainActor in
                     send(.onboarding(.completed))
                     

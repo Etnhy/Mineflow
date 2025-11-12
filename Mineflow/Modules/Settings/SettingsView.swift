@@ -54,11 +54,18 @@ struct SettingsView: View {
     private var generalSection: some View {
         Section(header: Text("General").foregroundColor(state.theme.accentColor)) {
             ForEach(SettingsGeneralCategory.allCases,id: \.rawValue) { general in
-                Button {
-                    generalAction(general)
-                } label: {
-                    SettingsGeneralView(item: general, theme: state.theme)
-                    
+                if general == .share {
+                    ShareLink(item: URL(string: AppConstants.shareLink)!) {
+                        SettingsGeneralView(item: general, theme: state.theme)
+                    }
+                } else {
+                    Button {
+                        generalAction(general)
+                    } label: {
+                        SettingsGeneralView(item: general, theme: state.theme)
+                        
+                    }
+
                 }
                 
             }
