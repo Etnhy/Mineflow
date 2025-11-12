@@ -17,9 +17,7 @@ struct MineflowApp: App {
         
         let loadedTheme = environment.settings.loadTheme()
         let loadHaptics = environment.settings.loadHapticPreference()
-        return AppState(
-            currentTheme: loadedTheme
-        )
+        return AppState(currentTheme: loadedTheme)
     }()
     
     var body: some Scene {
@@ -31,7 +29,7 @@ struct MineflowApp: App {
                     }
                 
             }
- 
+            .preferredColorScheme(.light)
         }
         
     }

@@ -73,7 +73,7 @@ struct GameTheme: Equatable, Identifiable, Hashable {
         headerBackgroundColor: Color(.systemGray5),
         primaryTextColor: .primary,
         secondaryTextColor: .secondary,
-        accentColor: Color(hex: "#66CCFF")
+        accentColor: Color(hex: "#77D6FF")//"#66CCFF")
     )
     
     static let nightMode = GameTheme(
