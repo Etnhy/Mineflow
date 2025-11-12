@@ -36,51 +36,67 @@ struct AppView: View {
                 }
             }
         )
-        let theme = store.state.currentTheme
         
         NavigationStack(path: pathBinding) {
             if let splashState = store.state.splashState {
                 SplashView(state: splashState) { splashAction in
                     store.send(.splash(splashAction))
                 }
-                
+                .transition(.opacity)
             } else if let onboardingState = store.state.onboardingState {
                 OnboardingView(state: onboardingState) { onboardingAction in
                     store.send(.onboarding(onboardingAction))
                 }
                 .toolbar(.hidden, for: .navigationBar)
+                .transition(.opacity)
             } else {
-                ZStack {
-                    BackgroundView(theme: theme)
-                    VStack {
-                        Text("MINEFLOW")
-                            .font(.sofia(weight: .black900, size: 48))
-                            .foregroundColor(theme.primaryTextColor)
-                            .padding(.top, scaleHeight(120))
-                        
-                        Spacer()
-                        
-                        VStack(spacing: scaleHeight(15)) {
-                            navigateButtons
-                        }
-                        .padding(.horizontal)
-                        .padding(.bottom, scaleHeight(100))
-                        
-                        Spacer()
-                        
-                        settingsButton
-                            .padding(.bottom, scaleHeight(75))
-                    }
-                    .navigationDestination(for: NavigationRoute.self) { route in
-                        navigation(route: route)
-                    }
-                    .toolbar(.hidden, for: .navigationBar)
-                    .onChange(of: scenePhase) { scenePhase in
-                        store.send(.scenePhaseChanged(scenePhase))
-                    }
-                }
+                appView
+                    .transition(.opacity)
             }
         }
+        .animation(.easeInOut(duration: 0.35), value: store.state.splashState != nil || store.state.onboardingState != nil)
+        .safeAreaInset(edge: .bottom) {
+            BannerAdsView()
+                .opacity(store.state.splashState == nil && store.state.onboardingState == nil ? 1 : 0)
+            
+        }
+    }
+    
+    @ViewBuilder
+    private var appView: some View {
+        let theme = store.state.currentTheme
+
+        ZStack {
+            BackgroundView(theme: theme)
+            VStack {
+                Text("MINEFLOW")
+                    .font(.sofia(weight: .black900, size: 48))
+                    .foregroundColor(theme.primaryTextColor)
+                    .padding(.top, scaleHeight(120))
+                
+                Spacer()
+                
+                VStack(spacing: scaleHeight(15)) {
+                    navigateButtons
+                }
+                .padding(.horizontal)
+                .padding(.bottom, scaleHeight(100))
+                
+                Spacer()
+                
+                settingsButton
+                    .padding(.bottom, scaleHeight(75))
+            }
+            .navigationDestination(for: NavigationRoute.self) { route in
+                navigation(route: route)
+            }
+            .toolbar(.hidden, for: .navigationBar)
+            .onChange(of: scenePhase) { scenePhase in
+                store.send(.scenePhaseChanged(scenePhase))
+            }
+        }
+
+
     }
     
     @ViewBuilder

@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct SplashState {
+struct SplashState: Equatable {
     var isLoading: Bool = true
 }

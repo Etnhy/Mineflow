@@ -14,15 +14,26 @@ struct OnboardingView: View {
     var send: (OnboardingAction) -> Void
     
     var body: some View {
-        ZStack {
+        let index = min(state.currentIndex, state.onboardingModels.count - 1)
+        let model = state.onboardingModels[index]
+        ZStack(alignment: .top) {
             VStack {
-                Button {
-                    send(.completed)
-                } label: {
-                    Text("Completed")
-                }
+                Text(model.title)
+                Text(model.subtitle)
 
             }
+        }
+        .onChange(of: state.currentIndex) { currentIndex in
+            LoggerInfo.log(currentIndex)
+        }
+        .safeAreaInset(edge: .bottom) {
+            Button {
+                send(.next)
+                
+            } label: {
+                Text(model.buttonTitle)
+            }
+
         }
     }
 }

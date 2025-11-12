@@ -8,6 +8,17 @@
 import SwiftUI
 
 
+struct StatisticGameModel {
+    var games: [GameModel] = []
+    
+    let mode: GameMode
+    
+    var gamesCount: Int { games.count }
+    var wins: Int { games.filter { $0.status == .won}.count }
+    var loses: Int { games.filter { $0.status == .lost}.count }
+    var bestTime: Double { games.map(\.time).min() ?? 0.0 }
+}
+
 
 struct StatisticState {
     var isLoading = false
@@ -16,20 +27,11 @@ struct StatisticState {
     var theme: GameTheme
     var games: [GameModel] = []
     
-    var easyGames: [GameModel] = []
-    var mediumGames: [GameModel] = []
-    var hardGames: [GameModel] = []
+    var easyGame: StatisticGameModel = StatisticGameModel(mode: .easy)
+    var mediumGame: StatisticGameModel = StatisticGameModel(mode: .medium)
+    var hardGame: StatisticGameModel = StatisticGameModel(mode: .hard)
     
-    
-    var easyWins: Int = 0
-    var easyLosses: Int = 0
-    
-    var mediumWins: Int = 0
-    var mediumLosses: Int = 0
-    
-    var hardWins: Int = 0
-    var hardLosses: Int = 0
-    
+
 }
 
 enum StatisticAlert: Identifiable {

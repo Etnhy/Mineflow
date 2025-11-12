@@ -31,10 +31,7 @@ struct MineflowApp: App {
                     }
                 
             }
-            .safeAreaInset(edge: .bottom) {
-                BannerAdsView()
-                
-            }
+ 
         }
         
     }

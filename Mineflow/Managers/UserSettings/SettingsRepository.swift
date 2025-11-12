@@ -53,8 +53,13 @@ final class SettingsRepository {
     }
     
     func getIsOnboardingCompleted() -> Bool {
+        #if DEBUG
+            return false
+        #else
         let isCompleted: Bool? = storage.load(forKey: .hasCompletedOnboarding) as Bool?
         return isCompleted ?? false
+
+        #endif
     }
     
 }

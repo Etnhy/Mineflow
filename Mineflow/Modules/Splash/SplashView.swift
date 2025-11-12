@@ -14,8 +14,14 @@ struct SplashView: View {
 
     var body: some View {
         ZStack {
-            Color.black.ignoresSafeArea()
+            Color.bimbBackground.ignoresSafeArea()
+            Image(.appBimb)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 323, height: 284, alignment: .center)
+                .aspectRatio(1, contentMode: .fit)
         }
+        .ignoresSafeArea()
         .onAppear { send(.onAppear) }
     }
 }

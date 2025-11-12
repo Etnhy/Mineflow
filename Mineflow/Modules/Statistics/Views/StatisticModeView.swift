@@ -11,15 +11,16 @@ import SwiftUI
 struct StatisticModeView: View {
     
     let theme: GameTheme
-    
-    let mode: GameMode
-    let allGames: Int
-    let wins: Int
-    let losses: Int
+    var model: StatisticGameModel
+//    let mode: GameMode
+//    let allGames: Int
+//    let wins: Int
+//    let losses: Int
+//    let bestTime: Double
     
     private var winRate: Double {
-        guard allGames > 0 else { return 0.0 }
-        return Double(wins) / Double(allGames)
+        guard model.gamesCount > 0 else { return 0.0 }
+        return Double(model.wins) / Double(model.gamesCount)
     }
     
     private var winRateText: String {
@@ -27,7 +28,7 @@ struct StatisticModeView: View {
     }
     
     private func iconForMode() -> String {
-        switch mode {
+        switch model.mode {
         case .easy:
             return "leaf.fill"
         case .medium:
@@ -45,15 +46,15 @@ struct StatisticModeView: View {
                     Image(systemName: iconForMode())
                         .font(.title2.weight(.semibold))
                         .foregroundColor(theme.accentColor)
-                    Text(mode.title)
+                    Text(model.mode.title)
                         .font(.sofia(weight: .bold700, size: 22))
                         .foregroundColor(theme.primaryTextColor)
                 }
                 
                 HStack(spacing: 15) {
-                    StatItem(theme: theme, title: "Wins", value: "\(wins)", color: .green)
-                    StatItem(theme: theme, title: "Losses", value: "\(losses)", color: .red)
-                    StatItem(theme: theme, title: "Total", value: "\(allGames)", color: theme.primaryTextColor)
+                    StatItem(theme: theme, title: "Wins", value: "\(model.wins)", color: .green)
+                    StatItem(theme: theme, title: "Losses", value: "\(model.loses)", color: .red)
+                    StatItem(theme: theme, title: "Total", value: "\(model.gamesCount)", color: theme.primaryTextColor)
                 }
             }
             

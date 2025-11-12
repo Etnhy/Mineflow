@@ -8,5 +8,7 @@
 import Foundation
 
 enum OnboardingAction {
+    case next
     case completed
+    
 }

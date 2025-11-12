@@ -23,6 +23,9 @@ struct StatisticView: View {
         }
     
     @Environment(\.dismiss) var dismiss
+    
+    private let LAST_10_GAMES_LIMIT = 10
+    
     var body: some View {
         ZStack(alignment: .top) {
             state.theme.backgroundColor.ignoresSafeArea()
@@ -37,35 +40,14 @@ struct StatisticView: View {
                     ScrollView {
                         
                         VStack {
-                            StatisticModeView(
-                                theme: state.theme,
-                                mode: .easy,
-                                allGames: state.easyGames.count,
-                                wins: state.easyWins,
-                                losses: state.easyLosses
-                            )
+                            StatisticModeView(theme: state.theme, model: state.easyGame)
                             
-                            StatisticModeView(
-                                theme: state.theme,
-                                mode: .medium,
-                                allGames: state.mediumGames.count,
-                                wins: state.mediumWins,
-                                losses: state.mediumLosses
-                            )
+                            StatisticModeView(theme: state.theme, model: state.mediumGame)
                             
-                            
-                            StatisticModeView(
-                                theme: state.theme,
-                                mode: .hard,
-                                allGames: state.hardGames.count,
-                                wins: state.hardWins,
-                                losses: state.hardLosses
-                            )
+                            StatisticModeView(theme: state.theme, model: state.hardGame)
                             
                             VStack(spacing: scaleHeight(15)) {
-                                
                                 if !state.games.isEmpty {
-                                    
                                     Button {
                                         send(.deleteAllButtonTapped)
                                     } label: {
@@ -73,11 +55,11 @@ struct StatisticView: View {
                                     }
                                     
                                     LazyVStack(alignment: .leading) {
-                                        Text("All Games")
+                                        Text("Last \(min(LAST_10_GAMES_LIMIT, state.games.count)) games")
                                             .font(.sofia(weight: .bold700, size: 20))
                                             .foregroundStyle(state.theme.accentColor)
                                             .multilineTextAlignment(.leading)
-                                        ForEach(state.games.reversed(), id: \.id) { gameModel in
+                                        ForEach(state.games.reversed().prefix(LAST_10_GAMES_LIMIT), id: \.id) { gameModel in
                                             GameHistoryRowView(gameModel: gameModel, theme: state.theme)
                                         }
                                         
@@ -91,8 +73,7 @@ struct StatisticView: View {
                                 
                             }
                             .padding(.top,scaleHeight(15))
-                            
-                            
+                            .animation(.linear, value: state.games.count)
                             
                         }
                         .padding(.horizontal)

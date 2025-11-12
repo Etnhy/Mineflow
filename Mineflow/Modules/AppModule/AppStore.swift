@@ -125,9 +125,7 @@ final class AppStore: ObservableObject {
         case .splash(let splashAction):
             handleSplashEffects(action: splashAction)
         case .onboarding(let onboardingAction):
-            if case .completed = onboardingAction {
-                environment.settings.setOnboardingCompleted()
-            }
+            handleOnboardingEffects(action: onboardingAction, previousState: previousState)
         default: break
         }
     }
@@ -136,6 +134,24 @@ final class AppStore: ObservableObject {
     
 }
 
+private extension AppStore {
+    func handleOnboardingEffects(action: OnboardingAction,previousState: AppState) {
+        switch action {
+        case .next:
+            guard let state = state.onboardingState else { return }
+            if state.currentIndex > state.onboardingModels.count  {
+                Task { @MainActor in
+                    send(.onboarding(.completed))
+                    
+                }
+            }
+            
+        case .completed:
+            environment.settings.setOnboardingCompleted()
+
+        }
+    }
+}
 
 
 private extension AppStore {
@@ -230,35 +246,10 @@ private extension AppStore {
 //MARK: - Handle Game Effects
 private extension AppStore {
     func handleGameEffects(action: GameAction, appState: AppState, previousState: GameState?) {
-        
-        guard environment.settings.hapticIsOn else {
-            return
-        }
-        
         guard let newState = state.gameFeature, let previousState = previousState else { return }
-        
-        let haptics = self.environment.haptics
-        if newState.status == .won && previousState.status != .won {
-            haptics.notify(.success)
-            
-            let gameModel = GameModel(
-                date: Date(),
-                status: newState.status,
-                gameMode: newState.gameModel.gameMode,
-                moveHistory: newState.moveHistory,
-                time: newState.elapsedTime
-            )
-            do {
-                try environment.coredata.saveGameModel(gameModel)
-            } catch {
-                LoggerInfo.log(error)
-            }
-            return
-        }
-        
-        if newState.status == .lost && previousState.status != .lost {
-            haptics.notify(.error)
-            
+
+
+        if newState.status == .won && previousState.status != .won || newState.status == .lost && previousState.status != .lost {
             let gameModel = GameModel(
                 date: Date(),
                 status: newState.status,
@@ -272,6 +263,23 @@ private extension AppStore {
                 LoggerInfo.log(error)
 
             }
+        }
+        
+        guard environment.settings.hapticIsOn else {
+            return
+        }
+
+        let haptics = self.environment.haptics
+        
+        if newState.status == .won && previousState.status != .won {
+            haptics.notify(.success)
+            
+
+            return
+        }
+        
+        if newState.status == .lost && previousState.status != .lost {
+            haptics.notify(.error)
 
             return
         }
@@ -284,6 +292,10 @@ private extension AppStore {
             if newOpened > oldOpened {
                 haptics.play(.light)
             }
+            
+
+
+            
         case .longPressCell:
             let newQuestionMarkCount = newState.board
                 .flatMap { $0 }
