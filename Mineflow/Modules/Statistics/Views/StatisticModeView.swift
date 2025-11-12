@@ -11,13 +11,9 @@ import SwiftUI
 struct StatisticModeView: View {
     
     let theme: GameTheme
-    var model: StatisticGameModel
-//    let mode: GameMode
-//    let allGames: Int
-//    let wins: Int
-//    let losses: Int
-//    let bestTime: Double
     
+    var model: StatisticGameModel
+
     private var winRate: Double {
         guard model.gamesCount > 0 else { return 0.0 }
         return Double(model.wins) / Double(model.gamesCount)
@@ -78,7 +74,7 @@ struct StatisticModeView: View {
             
         }
         .padding()
-        .background(theme.headerBackgroundColor)
+        .background(theme.headerBackgroundColor.opacity(0.75))
         .clipShape(RoundedRectangle(cornerRadius: theme.cornerRadius * 1.5))
         .shadow(color: .black.opacity(0.1), radius: 5, y: 3)
     }
