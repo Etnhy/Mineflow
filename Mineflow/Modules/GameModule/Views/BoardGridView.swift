@@ -9,24 +9,21 @@ import SwiftUI
 
 struct BoardGridView: View {
     
-    // Входные данные
     let board: [[Cell]]
     let rows: Int
     let cols: Int
     let theme: GameTheme
     
-    // Параметры, рассчитанные 1 раз снаружи
     let cellSpacing: CGFloat
     let padding: CGFloat
+    let cellSize: CGFloat
     let finalRadius: CGFloat
     let finalFontSize: CGFloat
     let finalImageSize: CGFloat
     
-    // UDF
     let send: (GameAction) -> Void
     
     var body: some View {
-        // ⭐️ ЭТОТ Grid ТЕПЕРЬ КЭШИРУЕТСЯ ⭐️
         Grid(horizontalSpacing: cellSpacing, verticalSpacing: cellSpacing) {
             ForEach(0..<rows, id: \.self) { row in
                 GridRow {
@@ -40,8 +37,8 @@ struct BoardGridView: View {
                             cellFontSize: finalFontSize,
                             cellImageSize: finalImageSize
                         )
+                        .frame(width: cellSize, height: cellSize)
                         .onLongPressGesture(minimumDuration: 0.3) {
-                            // ⭐️ Long Press работает!
                             send(.longPressCell(row: row, col: col))
                         }
                     }
@@ -50,7 +47,6 @@ struct BoardGridView: View {
         }
         .padding(padding)
         .background(Color.gray.opacity(0.5))
-        // ⭐️ .drawingGroup() "сплющивает" этот кэшированный Grid
         .drawingGroup() 
     }
 }

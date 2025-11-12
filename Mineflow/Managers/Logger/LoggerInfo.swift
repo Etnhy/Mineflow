@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class Logger {
+final class LoggerInfo {
     static func log(_ message: Any) {
 #if DEBUG
         print("[Mineflow] \(message)")

@@ -10,7 +10,9 @@ import SwiftUI
 
 
 struct StatisticState {
-    var isLoading: Bool = false
+    var isLoading = false
+    var confirmationAlert: StatisticAlert?
+    
     var theme: GameTheme
     var games: [GameModel] = []
     
@@ -30,7 +32,16 @@ struct StatisticState {
     
 }
 
-
+enum StatisticAlert: Identifiable {
+    case deleteAll
+    
+    var id: String {
+        switch self {
+        case .deleteAll:
+            return "deleteAll"
+        }
+    }
+}
 
 
 

@@ -23,13 +23,12 @@ struct GameTheme: Equatable, Identifiable, Hashable {
     var name: String
     let id: String
     
-    // MARK: - Game Board Colors
     var cellClosed: Color
     var cellOpened: Color
     var cellBorder: Color
     var numberColors: [Color]
-    var bombIcon: String
     
+    var bombIcon: String
     var bombImage: Image?
     
     var flagIcon: String
@@ -39,7 +38,6 @@ struct GameTheme: Equatable, Identifiable, Hashable {
     var questionImage: Image?
     
     var cornerRadius: CGFloat
-    
     
     var backgroundColor: Color
     var headerBackgroundColor: Color

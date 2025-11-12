@@ -10,6 +10,7 @@ import SwiftUI
 struct AppView: View {
     
     @StateObject private var store: AppStore
+    @Environment(\.scenePhase) private var scenePhase
     
     init(initialState: AppState, environment: AppEnvironment) {
         _store = StateObject(wrappedValue: AppStore(
@@ -38,63 +39,79 @@ struct AppView: View {
         let theme = store.state.currentTheme
         
         NavigationStack(path: pathBinding) {
-            ZStack {
-                BackgroundView(theme: theme)
-                
-                VStack {
-                    
-                    Text("MINEFLOW")
-                        .font(.sofia(weight: .black900, size: 48))
-                        .foregroundColor(theme.primaryTextColor)
-                        .padding(.top, scaleHeight(120))
-                    
-                    Spacer()
-                    
-                    VStack(spacing: scaleHeight(15)) {
-                        navigateButtons
-                    }
-                    .padding(.horizontal)
-                    .padding(.bottom, scaleHeight(100))
-
-                    Spacer()
-                    
-                    settingsButton
-                        .padding(.bottom, scaleHeight(75))
+            if let splashState = store.state.splashState {
+                SplashView(state: splashState) { splashAction in
+                    store.send(.splash(splashAction))
                 }
-                .navigationDestination(for: NavigationRoute.self) { route in
-                    switch route {
-                    case .game:
-                        if let game = store.state.gameFeature {
-                            GameView(state: game, theme: store.state.currentTheme) { gameAction in
-                                store.send(.game(gameAction))
-                            }
-                        }
-                    case .settings:
-                        if let settings = store.state.settingsState {
-                            SettingsView(state: settings) { settingsAction in
-                                store.send(.settings(settingsAction))
-                            }
-                        }
-                    case .theme:
-                        if let themeState = store.state.themeState {
-                            ThemeView(state: themeState) { action in
-                                store.send(.theme(action))
-                            }
-                        }
-                    case .statistic:
-                        if let statisticState = store.state.statisticState {
-                            StatisticView(state: statisticState) { statisticAction in
-                                store.send(.statisticAction(statisticAction))
-                            }
-                        }
-                    }
+                
+            } else if let onboardingState = store.state.onboardingState {
+                OnboardingView(state: onboardingState) { onboardingAction in
+                    store.send(.onboarding(onboardingAction))
                 }
                 .toolbar(.hidden, for: .navigationBar)
-
+            } else {
+                ZStack {
+                    BackgroundView(theme: theme)
+                    VStack {
+                        Text("MINEFLOW")
+                            .font(.sofia(weight: .black900, size: 48))
+                            .foregroundColor(theme.primaryTextColor)
+                            .padding(.top, scaleHeight(120))
+                        
+                        Spacer()
+                        
+                        VStack(spacing: scaleHeight(15)) {
+                            navigateButtons
+                        }
+                        .padding(.horizontal)
+                        .padding(.bottom, scaleHeight(100))
+                        
+                        Spacer()
+                        
+                        settingsButton
+                            .padding(.bottom, scaleHeight(75))
+                    }
+                    .navigationDestination(for: NavigationRoute.self) { route in
+                        navigation(route: route)
+                    }
+                    .toolbar(.hidden, for: .navigationBar)
+                    .onChange(of: scenePhase) { scenePhase in
+                        store.send(.scenePhaseChanged(scenePhase))
+                    }
+                }
             }
         }
     }
     
+    @ViewBuilder
+    private func navigation(route: NavigationRoute) -> some View {
+        switch route {
+        case .game:
+            if let game = store.state.gameFeature {
+                GameView(state: game, theme: store.state.currentTheme) { gameAction in
+                    store.send(.game(gameAction))
+                }
+            }
+        case .settings:
+            if let settings = store.state.settingsState {
+                SettingsView(state: settings) { settingsAction in
+                    store.send(.settings(settingsAction))
+                }
+            }
+        case .theme:
+            if let themeState = store.state.themeState {
+                ThemeView(state: themeState) { action in
+                    store.send(.theme(action))
+                }
+            }
+        case .statistic:
+            if let statisticState = store.state.statisticState {
+                StatisticView(state: statisticState) { statisticAction in
+                    store.send(.statisticAction(statisticAction))
+                }
+            }
+        }
+    }
     
     @ViewBuilder
     private var navigateButtons: some View {
@@ -112,9 +129,9 @@ struct AppView: View {
             Button {
                 store.send(.navigateToStatisticsView)
             } label: {
-                Text("Statistics")
+                SimpleTextButtonView(theme: store.state.currentTheme, title: "Statistic")
             }
-
+            
         }
     }
     

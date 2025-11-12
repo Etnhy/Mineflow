@@ -5,11 +5,15 @@
 //  Created by evhn on 30.10.2025.
 //
 
-import Foundation
+import SwiftUI
 
 
 
 enum AppAction {
+    
+    case splash(SplashAction)
+    case onboarding(OnboardingAction)
+    
     case game(GameAction)
     case settings(SettingsAction)
     case theme(ThemeAction)
@@ -24,5 +28,5 @@ enum AppAction {
     
     case dismissSheet
     case navigationPathChanged([NavigationRoute])
-    
+    case scenePhaseChanged(ScenePhase)
 }

@@ -10,6 +10,8 @@ import Foundation
 extension String {
     static let themeKey: String = "theme"
     static let hapticPreference = "hapticPreference"
+    static let inProgressGame = "inProgressGame"
+    static let hasCompletedOnboarding = "hasCompletedOnboarding"
 }
 
 final class SettingsRepository {
@@ -46,4 +48,39 @@ final class SettingsRepository {
         return isEnabled ?? true
     }
     
+    func setOnboardingCompleted() {
+        storage.save(true, forKey: .hasCompletedOnboarding)
+    }
+    
+    func getIsOnboardingCompleted() -> Bool {
+        let isCompleted: Bool? = storage.load(forKey: .hasCompletedOnboarding) as Bool?
+        return isCompleted ?? false
+    }
+    
+}
+
+extension SettingsRepository {
+    
+    func saveInProgressGame(_ gameState: GameState) {        
+        let dataToSave = gameState.persistenceData
+        if let data = try? JSONEncoder().encode(dataToSave) {
+            UserDefaults.standard.set(data, forKey: .inProgressGame)
+        }
+    }
+    
+    func fetchInProgressGame() -> GameState? {
+        guard let data = UserDefaults.standard.data(forKey: .inProgressGame) else {
+            return nil
+        }
+        
+        if let loadedData = try? JSONDecoder().decode(InProgressGameData.self, from: data) {
+            return GameState(from: loadedData)
+        }
+        
+        return nil
+    }
+    
+    func deleteInProgressGame() {
+        storage.remove(forKey: .inProgressGame)
+    }
 }

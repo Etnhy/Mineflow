@@ -17,10 +17,28 @@ fileprivate let BASE_WIDTH: CGFloat = 375.0
 
 extension View {
     func scaleHeight(_ height: CGFloat) -> CGFloat {
-       return (height / BASE_HEIGHT) * screenSize.height 
+        if isSmallDevice {
+            return height
+        } else {
+            return (height / BASE_HEIGHT) * screenSize.height
+
+        }
     }
     
     func scaleWidth(_ width: CGFloat) -> CGFloat {
-        return (width / BASE_WIDTH) * screenSize.width
+        if isSmallDevice {
+            return width
+        } else {
+            
+            return (width / BASE_WIDTH) * screenSize.width
+        }
+    }
+    
+    func multipleWidth(_ multiple: CGFloat) -> CGFloat {
+        return screenSize.width * multiple
+    }
+    
+    func multipleHeight(_ multiple: CGFloat) -> CGFloat {
+        return screenSize.height * multiple
     }
 }

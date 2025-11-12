@@ -22,8 +22,6 @@ struct GameHistoryRowView: View {
                 Text(gameModel.gameMode.title)
                     .font(.sofia(weight: .bold700, size: 18))
                     .foregroundColor(theme.primaryTextColor)
-                
-//                Text(gameModel.date, style: .relative)
                 Text(gameModel.date.formatted(.dateTime
                     .day(.twoDigits)
                     .month(.twoDigits)

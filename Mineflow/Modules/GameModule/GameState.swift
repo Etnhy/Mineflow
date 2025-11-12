@@ -7,8 +7,8 @@
 
 import Foundation
 
-
 struct GameState: Equatable {
+    
     var board: [[Cell]] = []
     let gameModel: StartGameModel
     
@@ -34,6 +34,27 @@ struct GameState: Equatable {
         self.board = generateEmptyBoard(rows: gameModel.rows, cols: gameModel.cols)
         
     }
+    
+    init(from data: InProgressGameData) {
+        self.board = data.board
+        self.gameModel = data.gameModel
+        self.status = data.status
+        self.elapsedTime = data.elapsedTime
+        self.flagsUsed = data.flagsUsed
+        self.moveHistory = data.moveHistory
+    }
+    
+    var persistenceData: InProgressGameData {
+        return InProgressGameData(
+            board: self.board,
+            gameModel: self.gameModel,
+            status: self.status,
+            elapsedTime: self.elapsedTime,
+            flagsUsed: self.flagsUsed,
+            moveHistory: self.moveHistory
+        )
+    }
+    
 }
 
 extension GameState {

@@ -21,7 +21,7 @@ enum SettingsGeneralCategory: Int,CaseIterable {
     var subtitle: String? {
         switch self {
         case .feedback:
-            return "буду рад вашему отзыву"
+            return "I will be glad to receive any feedback."
         default: return nil
         }
     }

@@ -19,7 +19,6 @@ struct CellView: View {
         cell.isOpened && cell.isMine
     }
     
-    
     var body: some View {
         ZStack {
             let baseColor = cell.isOpened ? theme.cellOpened : theme.cellClosed

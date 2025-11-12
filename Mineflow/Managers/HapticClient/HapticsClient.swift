@@ -19,14 +19,15 @@ struct HapticsClient {
 #if !targetEnvironment(simulator)
             UIImpactFeedbackGenerator(style: style).impactOccurred()
 #endif
-            print("notify: \(style)")
+            LoggerInfo.log("notify: \(style)")
+
 
         },
         notify: { type in
 #if !targetEnvironment(simulator)
             UINotificationFeedbackGenerator().notificationOccurred(type)
 #endif
-            print("notify: \(type)")
+            LoggerInfo.log("notify: \(type)")
         }
     )
     

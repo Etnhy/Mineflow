@@ -9,6 +9,7 @@ import GoogleMobileAds
 import SwiftUI
 import UIKit
 
+
 struct BannerViewContainer: UIViewRepresentable {
     typealias UIViewType = BannerView
     let adSize: AdSize
@@ -19,7 +20,7 @@ struct BannerViewContainer: UIViewRepresentable {
     
     func makeUIView(context: Context) -> BannerView {
         let banner = BannerView(adSize: adSize)
-        banner.adUnitID = AppConstants.adsKey
+        banner.adUnitID = AppConstants.banneradKey
         banner.load(Request())
         banner.delegate = context.coordinator
         return banner
@@ -34,19 +35,37 @@ struct BannerViewContainer: UIViewRepresentable {
     class BannerCoordinator: NSObject, BannerViewDelegate {
         
         let parent: BannerViewContainer
-        
+        var retryTimer: Timer?
         init(_ parent: BannerViewContainer) {
             self.parent = parent
         }
-        
-        
+
         func bannerViewDidReceiveAd(_ bannerView: BannerView) {
-            print("DID RECEIVE AD.")
+            self.retryTimer?.invalidate()
+            self.retryTimer = nil
+            LoggerInfo.log("DID RECEIVE AD.")
         }
         
         func bannerView(_ bannerView: BannerView, didFailToReceiveAdWithError error: Error) {
-            print("FAILED TO RECEIVE AD: \(error.localizedDescription)")
+            self.retryTimer?.invalidate()
+            
+            self.retryTimer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false) { [weak self] _ in
+                guard let self = self else { return }
+                Task { @MainActor in
+                    self.reloadAd(on: bannerView)
+                }
+            }
+            
+            LoggerInfo.log("FAILED TO RECEIVE AD: \(error.localizedDescription)")
+            
         }
+        
+        private func reloadAd(on bannerView: BannerView) {
+            LoggerInfo.log("Attempting ad reload after 5 seconds...")
+            bannerView.load(Request())
+        }
+        
+
     }
 }
 

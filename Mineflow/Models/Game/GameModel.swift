@@ -45,7 +45,8 @@ extension GameEntity {
             do {
                 return try JSONDecoder().decode([LoggedAction].self, from: data)
             } catch {
-                print("decode error moveHistory: \(error)")
+                LoggerInfo.log("decode error moveHistory: \(error)")
+
                 return []
             }
         }
@@ -53,7 +54,8 @@ extension GameEntity {
             do {
                 self.moveHistoryData = try JSONEncoder().encode(newValue)
             } catch {
-                print("code error moveHistory: \(error)")
+                LoggerInfo.log("code error moveHistory: \(error)")
+
                 self.moveHistoryData = nil
             }
         }

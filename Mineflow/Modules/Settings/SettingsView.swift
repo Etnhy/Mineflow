@@ -14,8 +14,9 @@ struct SettingsView: View {
     var send: (SettingsAction) -> Void
     
     @Environment(\.dismiss) var dismiss
+    
     var body: some View {
-
+        
         
         ZStack {
             BackgroundView(theme: state.theme)
@@ -32,24 +33,31 @@ struct SettingsView: View {
                     themeSection
                     
                     gameSettingsSection
-                    
+                                        
                 }
                 .scrollContentBackground(.hidden)
                 .padding(.top, 1)
+                
             }
+
         }
         .navigationBarBackButtonHidden(true)
         .toolbar(.hidden, for: .navigationBar)
+        .safeAreaInset(edge: .bottom) {
+            Text("\(state.appVersion)")
+                .foregroundStyle(state.theme.accentColor)
+                .font(.sofia(weight: .medium500, size: 16))
+                .padding(.bottom,scaleHeight(60))
+        }
     }
     
-    
     private var generalSection: some View {
-        Section(header: Text("General").foregroundColor(state.theme.primaryTextColor)) {
-            ForEach(SettingsGeneralCategory.allCases,id: \.rawValue) { item in
+        Section(header: Text("General").foregroundColor(state.theme.accentColor)) {
+            ForEach(SettingsGeneralCategory.allCases,id: \.rawValue) { general in
                 Button {
-                    
+                    generalAction(general)
                 } label: {
-                    SettingsGeneralView(item: item, theme: state.theme)
+                    SettingsGeneralView(item: general, theme: state.theme)
                     
                 }
                 
@@ -61,8 +69,7 @@ struct SettingsView: View {
     
     
     private var themeSection: some View {
-        Section(header: Text("Appearance").foregroundColor(state.theme.primaryTextColor)) {
-            
+        Section(header: Text("Appearance").foregroundColor(state.theme.accentColor)) {
             Button {
                 send(.themeMenuTapped)
             } label: {
@@ -83,22 +90,33 @@ struct SettingsView: View {
                 send(.hapticToggleChanged(isOn: isToggled))
             }
         )
-        
-        
-        Section(header: Text("Game Settings").foregroundColor(state.theme.primaryTextColor)) {
-            
+        Section(header: Text("Game Settings").foregroundColor(state.theme.accentColor)) {
             Toggle("Haptic Feedback", isOn: hapticIsOnBinding)
-                .tint(state.theme.accentColor)
-                .foregroundColor(state.theme.primaryTextColor)
         }
         .listRowBackground(state.theme.headerBackgroundColor)
-        
+        .foregroundStyle(state.theme.accentColor)
+        .font(.sofia(weight: .medium500, size: 16))
+
+    }
+    
+    private func generalAction(_ action: SettingsGeneralCategory) {
+        switch action {
+        case .feedback:
+            send(.urlOpened(urlString: AppConstants.feedbackLink))
+        case .privacy:
+            send(.urlOpened(urlString: AppConstants.privacyLink))
+        case .terms:
+            send(.urlOpened(urlString: AppConstants.termsLink))
+        default: break
+            
+        }
     }
 }
 
 #Preview {
-    SettingsView(state: .init(theme: .candy, hapticIsOn: false),send: { action in
-        print(action)
+    SettingsView(state: .init(theme: .classic, hapticIsOn: false),send: { action in
+        LoggerInfo.log(action)
+
     })
 }
 

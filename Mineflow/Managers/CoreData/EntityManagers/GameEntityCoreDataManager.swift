@@ -19,10 +19,7 @@ final class GameCoreDataManager: CoreDataManager {
     init(persistentController: PersistenceStore = PersistenceStore()) {
         self.persistentController = persistentController
     }
-    
-    
-
-    
+        
     func fetch(predicate: NSPredicate? = nil, sortDescriptors: [NSSortDescriptor]? = nil) throws -> [GameEntity] {
         let fetchRequest: NSFetchRequest<GameEntity> = GameEntity.fetchRequest()
         
@@ -34,7 +31,7 @@ final class GameCoreDataManager: CoreDataManager {
         do {
             return try context.fetch(fetchRequest)
         } catch {
-            Logger.log(error)
+            LoggerInfo.log(error)
             throw error
         }
     }
@@ -66,7 +63,8 @@ final class GameCoreDataManager: CoreDataManager {
             context.reset()
             
         } catch {
-            print("Bimbo (CoreData) Error: Failed to batch delete stats: \(error)")
+            LoggerInfo.log("Bimbo (CoreData) Error: Failed to batch delete stats: \(error)")
+
         }
     }
     

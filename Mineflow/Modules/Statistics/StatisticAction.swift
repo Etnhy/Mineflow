@@ -9,5 +9,8 @@
 enum StatisticAction {
     case viewAppeared
     case statisticsLoaded([GameModel])
-    case resetAllStatistics
+    
+    case deleteAllButtonTapped
+    case confirmDeleteAll
+    case dismissAlert
 }

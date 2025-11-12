@@ -8,19 +8,6 @@
 import SwiftUI
 import Combine
 
-struct AppEnvironment {
-    var haptics: HapticsClient
-    let settings: SettingsRepository
-    let coredata: CoreDataRepository
-    
-    static let env = AppEnvironment(
-        haptics: HapticsClient.live,
-        settings: SettingsRepository(), coredata: CoreDataRepository()
-    )
-    
-    
-}
-
 
 @MainActor
 final class AppStore: ObservableObject {
@@ -89,6 +76,31 @@ final class AppStore: ObservableObject {
             state.navigationPath.append(.statistic)
         case .statisticAction(let statAction):
             statisticreducer(state: &state.statisticState, action: statAction)
+        case .scenePhaseChanged(let newPhase):
+            if newPhase == .background {
+                if let currentGameState = state.gameFeature, currentGameState.status == .playing {
+                    environment.settings.saveInProgressGame(currentGameState)
+                }
+            }
+        case .splash(let splashAction):
+            splashReducer(state: &state.splashState, action: splashAction)
+            
+            if case .dataLoaded(let initialTheme, let inProgressGame,let hasCompletedOnboarding) = splashAction {
+                state.currentTheme = initialTheme
+                state.inProgressGame = inProgressGame
+                
+                if hasCompletedOnboarding {
+                    send(.splash(.ended))
+                } else {
+                    state.onboardingState = OnboardingState()
+                    send(.splash(.ended))
+                }
+            }
+            
+            
+            
+        case .onboarding(let onboardingAction):
+            onboardingReducer(state: &state.onboardingState, action: onboardingAction)
         }
         
     }
@@ -110,6 +122,12 @@ final class AppStore: ObservableObject {
             handleThmeEffects(action: themeAction)
         case .statisticAction(let statAction):
             handleStatisticEffects(action: statAction)
+        case .splash(let splashAction):
+            handleSplashEffects(action: splashAction)
+        case .onboarding(let onboardingAction):
+            if case .completed = onboardingAction {
+                environment.settings.setOnboardingCompleted()
+            }
         default: break
         }
     }
@@ -117,6 +135,35 @@ final class AppStore: ObservableObject {
     
     
 }
+
+
+
+private extension AppStore {
+    private func handleSplashEffects(action: SplashAction) {
+        switch action {
+        case .onAppear:
+            Task {
+                try await Task.sleep(for: .seconds(0.3))
+                await environment.tracking.requestAuthorization()
+                try await Task.sleep(for: .seconds(0.1))
+
+                let initialTheme = environment.settings.loadTheme()
+                let inProgressGame = environment.settings.fetchInProgressGame()
+                
+                await MainActor.run {
+                    send(.splash(.dataLoaded(initialTheme, inProgressGame, environment.settings.getIsOnboardingCompleted())))
+                }
+            }
+            
+        case .dataLoaded:
+            send(.splash(.ended))
+            
+        case .ended:
+            break
+        }
+    }
+}
+
 private extension AppStore {
     func handleStatisticEffects(action: StatisticAction) {
         switch action {
@@ -128,12 +175,13 @@ private extension AppStore {
                         self.send(.statisticAction(.statisticsLoaded(loadedModels)))
                     }
                 } catch {
-                    print("❗️ CoreData Fetch Error: \(error)")
+                    LoggerInfo.log("fetch errot: \(error)")
+
                 }
             }
         case .statisticsLoaded(_):
             break
-        case .resetAllStatistics:
+        case .confirmDeleteAll:
             Task {
                 do {
                     try environment.coredata.deleteAllGameModels()
@@ -141,11 +189,15 @@ private extension AppStore {
                         self.send(.statisticAction(.statisticsLoaded([])))
                     }
 
-                }catch {
-                    print(error)
+                } catch {
+                    LoggerInfo.log(error)
                 }
             }
             
+        case .deleteAllButtonTapped:
+            break
+        case .dismissAlert:
+            break
         }
     }
 }
@@ -169,6 +221,8 @@ private extension AppStore {
             send(.navigateToThemeView)
         case .hapticToggleChanged(isOn: let isOn):
             environment.settings.saveHapticPreference(isOn)
+        case .urlOpened(urlString: let urlString):
+            environment.urlOpener.open(urlString)
         }
     }
 }
@@ -197,7 +251,7 @@ private extension AppStore {
             do {
                 try environment.coredata.saveGameModel(gameModel)
             } catch {
-                print(error)
+                LoggerInfo.log(error)
             }
             return
         }
@@ -215,7 +269,8 @@ private extension AppStore {
             do {
                 try environment.coredata.saveGameModel(gameModel)
             } catch {
-                print(error)
+                LoggerInfo.log(error)
+
             }
 
             return

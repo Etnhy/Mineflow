@@ -8,8 +8,8 @@
 import Foundation
 
 
-struct Cell: Identifiable, Equatable {
-    let id = UUID() 
+struct Cell: Identifiable, Equatable,Codable {
+    var id = UUID() 
     let row: Int
     let col: Int
     

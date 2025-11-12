@@ -7,7 +7,7 @@
 
 
 
-enum FlagState {
+enum FlagState: Codable {
     case none
     case flagged
     case questionMarked

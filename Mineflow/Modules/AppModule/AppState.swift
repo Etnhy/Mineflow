@@ -16,7 +16,6 @@ enum NavigationRoute: Hashable {
 enum SheetRoute: Identifiable {
     case settings
     case userProfile
-
     var id: Self { self }
 }
 
@@ -24,6 +23,9 @@ enum SheetRoute: Identifiable {
 import Foundation
 
 struct AppState {
+    var splashState: SplashState? = SplashState()
+    
+    var onboardingState: OnboardingState? = nil
     
     var gameFeature: GameState?
     
@@ -38,4 +40,6 @@ struct AppState {
     var presentedSheet: SheetRoute? = nil
 
     var currentTheme: GameTheme = .classic
+    
+    var inProgressGame: GameState? = nil
 }

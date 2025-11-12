@@ -25,6 +25,9 @@ struct ThemeView: View {
     
     @Environment(\.dismiss) var dismiss
     
+    @State private var showInfo = true
+    
+    
     init(state: ThemeState, send: @escaping (ThemeAction) -> Void) {
             self.state = state
             self.send = send
@@ -32,7 +35,7 @@ struct ThemeView: View {
         }
     
     var body: some View {
-        ZStack {
+        ZStack(alignment: .top) {
             selectedTheme.backgroundColor.ignoresSafeArea()
                 .animation(.linear, value: selectedTheme)
             VStack {
@@ -44,27 +47,40 @@ struct ThemeView: View {
                         
                         VStack {
                             Text(item.name)
-                                .font(.sofia(weight: .semiBold600, size: 20))
+                                .font(.sofia(weight: .semiBold600, size: 24))
                                 .foregroundStyle(item.accentColor)
 
                             gameField(theme: item)
-                                .frame(width: UIScreen.main.bounds.width - 40, height: 400)
+                                .frame(width: UIScreen.main.bounds.width - 40, height: 350)
+                            Spacer()
 
                         }
                         .tag(item)
+                        .padding(.top,scaleHeight(isSmallDevice ? 10 : 60))
 
                     }
                 }
                 .tabViewStyle(.page(indexDisplayMode: .never))
                 .ignoresSafeArea()
                 .onChange(of: selectedTheme) { theme in
-                    print(selectedTheme.name)
+                    LoggerInfo.log(selectedTheme.name)
                 }
-                Button {
-                    send(.themeChanged(selectedTheme))
-                    dismiss()
-                } label: {
-                    Text("select")
+                .safeAreaInset(edge: .bottom) {
+                    VStack {
+                        if showInfo {
+                            Text("Swipe left or right to change theme")
+                                .font(.sofia(weight: .regular400, size: 18))
+                                .foregroundStyle(selectedTheme.accentColor)
+                        }
+                        Button {
+                            send(.themeChanged(selectedTheme))
+                            dismiss()
+                        } label: {
+                            SimpleTextButtonView(theme: selectedTheme, title: "Select")
+                        }
+                        .padding(.bottom,scaleHeight(100))
+                        
+                    }
                 }
 
                 
@@ -110,6 +126,7 @@ struct ThemeView: View {
 
 #Preview {
     ThemeView(state: .init(theme: .candy)) { action in
-        print(action)
+        LoggerInfo.log("notify: \(action)")
+
     }
 }

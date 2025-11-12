@@ -23,7 +23,8 @@ final class UserSettingsStorage: SettingsStorage {
             let data = try encoder.encode(value)
             storage.set(data, forKey: key)
         } catch {
-            print("error saving value for key: '\(key)': \(error.localizedDescription)")
+            LoggerInfo.log("error saving value for key: '\(key)': \(error.localizedDescription)")
+
         }
     }
 
@@ -36,7 +37,8 @@ final class UserSettingsStorage: SettingsStorage {
             let value = try decoder.decode(T.self, from: data)
             return value
         } catch {
-            print("error loading value for key: '\(key)': \(error.localizedDescription)")
+            LoggerInfo.log("error loading value for key: '\(key)': \(error.localizedDescription)")
+
             return nil
         }
     }

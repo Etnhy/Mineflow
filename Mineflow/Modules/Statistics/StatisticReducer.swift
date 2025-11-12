@@ -33,8 +33,13 @@ func statisticreducer(state: inout StatisticState?, action: StatisticAction) {
         
         newState.isLoading = false
         
-    case .resetAllStatistics:
-        break
+        
+    case .deleteAllButtonTapped:
+        newState.confirmationAlert = .deleteAll
+    case .confirmDeleteAll:
+        newState.confirmationAlert = nil
+    case .dismissAlert:
+        newState.confirmationAlert = nil
     }
     
     state = newState

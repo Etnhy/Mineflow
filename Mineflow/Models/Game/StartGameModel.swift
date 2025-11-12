@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum GameMode: Int, CaseIterable {
+enum GameMode: Int, CaseIterable, Codable {
     case easy, medium, hard
     var title: String {
         switch self {
@@ -18,7 +18,7 @@ enum GameMode: Int, CaseIterable {
     }
 }
 
-struct StartGameModel: Equatable,Identifiable {
+struct StartGameModel: Equatable,Identifiable, Codable {
     var id: UUID = UUID()
     let gameMode: GameMode
     let rows: Int

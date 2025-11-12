@@ -12,7 +12,8 @@ struct AppThemeSectionView: View {
     var body: some View {
         HStack {
             Text("App Theme")
-                .foregroundColor(theme.primaryTextColor)
+                .foregroundColor(theme.accentColor)
+                .font(.sofia(weight: .medium500, size: 16))
             Spacer()
             Text(theme.name)
                 .foregroundColor(theme.secondaryTextColor)

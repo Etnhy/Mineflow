@@ -14,8 +14,8 @@ struct SettingsGeneralView: View {
         HStack {
             VStack(alignment: .leading) {
                 Text(item.title)
-                    .foregroundColor(theme.primaryTextColor)
-                    .font(.sofia(weight: .medium500, size: 14))
+                    .foregroundColor(theme.accentColor)
+                    .font(.sofia(weight: .medium500, size: 16))
                 if let subtitle = item.subtitle {
                     Text(subtitle)
                         .foregroundColor(theme.secondaryTextColor)

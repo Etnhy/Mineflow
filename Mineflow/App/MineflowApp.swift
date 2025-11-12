@@ -25,7 +25,6 @@ struct MineflowApp: App {
     var body: some Scene {
         WindowGroup {
             ZStack {
-//                Self.loadedState.currentTheme.backgroundColor.ignoresSafeArea()
                 AppView(initialState: Self.loadedState, environment: Self.environment)
                     .onAppear {
                         MobileAds.shared.start()
@@ -34,7 +33,7 @@ struct MineflowApp: App {
             }
             .safeAreaInset(edge: .bottom) {
                 BannerAdsView()
-
+                
             }
         }
         

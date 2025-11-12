@@ -7,26 +7,6 @@
 
 import SwiftUI
 
-//struct PlayButtonView: View {
-//    var theme: GameTheme
-//    var model: StartGameModel
-//    var body: some View {
-//        ZStack {
-//            theme.headerBackgroundColor
-//            Text("\(model.name): \(model.cols)x\(model.rows), \(model.totalMines) bomb")
-//                .font(.sofia(weight: .bold700, size: 20))
-//                .foregroundStyle(theme.accentColor)
-////                .multilineTextAlignment(.leading)
-//
-//        }
-//        .clipShape(RoundedRectangle(cornerRadius: scaleHeight(theme.cornerRadius)))
-//        .frame(height: scaleHeight(50))
-//        .padding(.horizontal)
-//    }
-//}
-
-import SwiftUI
-
 struct PlayButtonView: View {
     var theme: GameTheme
     var model: StartGameModel
@@ -43,7 +23,7 @@ struct PlayButtonView: View {
                     .font(.sofia(weight: .bold700, size: 20))
                     .foregroundColor(theme.primaryTextColor)
                 
-                Text("\(model.cols)x\(model.rows), \(model.totalMines) bomb")
+                Text("\(model.cols)x\(model.rows), \(model.totalMines) mine")
                     .font(.sofia(weight: .regular400, size: 14))
                     .foregroundColor(theme.secondaryTextColor)
             }
