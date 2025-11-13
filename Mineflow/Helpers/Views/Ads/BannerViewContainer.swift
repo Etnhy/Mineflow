@@ -74,6 +74,9 @@ struct BannerAdsView: View {
     var body: some View {
 
         ZStack {
+            #if DEBUG
+            Color.white
+            #endif
             GeometryReader { geo in
                 let adSize = currentOrientationAnchoredAdaptiveBanner(width: scaleWidth(geo.size.width - 40))
 

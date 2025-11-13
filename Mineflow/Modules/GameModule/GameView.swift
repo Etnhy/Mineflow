@@ -58,7 +58,22 @@ struct GameView: View {
         }
         .navigationBarBackButtonHidden(true)
         .toolbar(.hidden, for: .navigationBar)
-        
+        .overlay(alignment: .top) {
+            if state.status == .won || state.status == .lost {
+                Button {
+                    restartAction()
+                } label: {
+                    Text("Restart")
+                        .font(.sofia(weight: .bold700, size: 18))
+                        .foregroundStyle(theme.accentColor)
+                        .padding()
+                        .background(theme.headerBackgroundColor)
+                        .clipShape(.capsule)
+                }
+                .padding(.top,scaleHeight(120))
+            }
+
+        }
     }
     
     

@@ -79,6 +79,7 @@ struct StatisticView: View {
                         .padding(.horizontal)
                         
                     }
+                    .blur(radius: state.confirmationAlert == nil ? 0 : 10)
                 }
                 
             }
