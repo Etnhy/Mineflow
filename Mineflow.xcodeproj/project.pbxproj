@@ -28,6 +28,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7A53724A2EC5EFCF00F963DB /* Mineflow copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Mineflow copy-Info.plist"; path = "/Users/evhenii/DevCold/Mineflow/Mineflow copy-Info.plist"; sourceTree = "<absolute>"; };
 		7A71FBFB2EB38ADD00A9A6CA /* Mineflow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mineflow.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A71FC082EB38ADE00A9A6CA /* MineflowTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MineflowTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A71FC122EB38ADE00A9A6CA /* MineflowUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MineflowUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -90,12 +91,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7A5372AE2EC5F06D00F963DB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		7A71FBF22EB38ADD00A9A6CA = {
 			isa = PBXGroup;
 			children = (
 				7A71FBFD2EB38ADD00A9A6CA /* Mineflow */,
 				7A71FC0B2EB38ADE00A9A6CA /* MineflowTests */,
 				7A71FC152EB38ADE00A9A6CA /* MineflowUITests */,
+				7A53724A2EC5EFCF00F963DB /* Mineflow copy-Info.plist */,
+				7A5372AE2EC5F06D00F963DB /* Frameworks */,
 				7A71FBFC2EB38ADD00A9A6CA /* Products */,
 			);
 			sourceTree = "<group>";
@@ -120,6 +130,7 @@
 				7A71FBF72EB38ADD00A9A6CA /* Sources */,
 				7A71FBF82EB38ADD00A9A6CA /* Frameworks */,
 				7A71FBF92EB38ADD00A9A6CA /* Resources */,
+				7A53723F2EC5EEC000F963DB /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -245,6 +256,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		7A53723F2EC5EEC000F963DB /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "xcrun simctl status_bar BB37FAE3-19A1-4D1F-B71A-BFFD760C32AF override --time \"9:41\" --batteryState charged --batteryLevel 100 --cellularMode active --dataNetwork wifi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		7A71FBF72EB38ADD00A9A6CA /* Sources */ = {

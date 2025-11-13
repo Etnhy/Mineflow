@@ -87,7 +87,9 @@ struct StatisticView: View {
         .navigationBarBackButtonHidden(true)
         .toolbar(.hidden, for: .navigationBar)
         .onAppear {
+            #if !DEBUG
             send(.viewAppeared)
+            #endif
         }
         
         .alert(item: alertBinding) { alert in
