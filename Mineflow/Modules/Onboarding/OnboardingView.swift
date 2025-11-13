@@ -21,12 +21,14 @@ struct OnboardingView: View {
             VStack {
                 VStack {
                     Text(model.title)
-                        .font(.sofia(weight: .black900, size: 24))
+                        .font(.sofia(weight: .black900, size: 32))
                     Text(model.subtitle)
-                        .font(.sofia(weight: .semiBold600, size: 18))
+                        .font(.sofia(weight: .bold700, size: 20))
                     Spacer()
                 }
                 .frame(height: scaleHeight(140))
+                .padding(.top,scaleHeight(12))
+                .foregroundStyle(.white)
                 model.image
                     .resizable()
                     .aspectRatio(1, contentMode: .fit)
@@ -34,20 +36,30 @@ struct OnboardingView: View {
             }
             .padding(.horizontal)
             .multilineTextAlignment(.center)
+            .transition(.asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .trailing)))
+            .animation(.linear, value: state.currentIndex)
+
         }
         .onChange(of: state.currentIndex) { currentIndex in
             LoggerInfo.log(currentIndex)
         }
-        .animation(.linear, value: state.currentIndex)
-        .transition(.asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .trailing)))
 
         .safeAreaInset(edge: .bottom) {
             Button {
                 send(.next)
                 
             } label: {
-                Text(model.buttonTitle)
+                ZStack {
+                    Color.white
+                    Text(model.buttonTitle)
+                        .font(.sofia(weight: .bold700, size: 22))
+                        .foregroundStyle(.black)
+                }
+                .frame(height: scaleHeight(50))
+                .clipShape(RoundedRectangle(cornerRadius: scaleHeight(15)))
             }
+            .padding(.horizontal)
+            .padding(.bottom,scaleHeight(10))
 
         }
     }

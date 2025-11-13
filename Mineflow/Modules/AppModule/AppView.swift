@@ -42,19 +42,19 @@ struct AppView: View {
                 SplashView(state: splashState) { splashAction in
                     store.send(.splash(splashAction))
                 }
-                .transition(.opacity)
+                .transition(moveTransition)
             } else if let onboardingState = store.state.onboardingState {
                 OnboardingView(state: onboardingState) { onboardingAction in
                     store.send(.onboarding(onboardingAction))
                 }
                 .toolbar(.hidden, for: .navigationBar)
-                .transition(.opacity)
+                .transition(moveTransition)
             } else {
                 appView
-                    .transition(.opacity)
+                    .transition(moveTransition)
             }
         }
-        .animation(.easeInOut(duration: 0.35), value: store.state.splashState != nil || store.state.onboardingState != nil)
+        .animation(.linear, value: store.state.splashState != nil || store.state.onboardingState != nil)
         .safeAreaInset(edge: .bottom) {
             BannerAdsView()
                 .opacity(store.state.splashState == nil && store.state.onboardingState == nil ? 1 : 0)
@@ -73,7 +73,6 @@ struct AppView: View {
                     .font(.sofia(weight: .black900, size: 48))
                     .foregroundColor(theme.primaryTextColor)
                     .padding(.top, scaleHeight(120))
-                
                 Spacer()
                 
                 VStack(spacing: scaleHeight(15)) {
@@ -172,4 +171,9 @@ struct AppView: View {
             .padding(.trailing, 20)
         }
     }
+    
+    private var moveTransition: AnyTransition {
+        .asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .trailing))
+    }
 }
+

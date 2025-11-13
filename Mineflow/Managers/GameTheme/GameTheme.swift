@@ -234,38 +234,3 @@ struct GameTheme: Equatable, Identifiable, Hashable {
 }
 
 
-extension Color {
-    init(hex: String, alpha: Double? = nil) {
-        var hexString = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
-        var int: UInt64 = 0
-        
-        Scanner(string: hexString).scanUnsignedLongLong(&int)
-        
-        let r: UInt64
-        let g: UInt64
-        let b: UInt64
-        let a: UInt64
-        
-        // Определяем, какой формат Hex используется (RGB, ARGB, RRGGBB, RRGGBBAA)
-        switch hexString.count {
-        case 3: // RGB (e.g., #F00) -> RRGGBB
-            (r, g, b, a) = ((int >> 8) * 17, (int >> 4 & 0xF) * 17, (int & 0xF) * 17, 255)
-        case 4: // ARGB (e.g., #FF00) -> AARRGGBB
-            (a, r, g, b) = ((int >> 12) * 17, (int >> 8 & 0xF) * 17, (int >> 4 & 0xF) * 17, (int & 0xF) * 17)
-        case 6: // RRGGBB
-            (r, g, b, a) = (int >> 16, int >> 8 & 0xFF, int & 0xFF, 255)
-        case 8: // AARRGGBB
-            (r, g, b, a) = (int >> 16 & 0xFF, int >> 8 & 0xFF, int & 0xFF, int >> 24)
-        default:
-            (r, g, b, a) = (0, 0, 0, 255) // Fallback на черный
-        }
-
-        self.init(
-            .sRGB,
-            red: Double(r) / 255,
-            green: Double(g) / 255,
-            blue: Double(b) / 255,
-            opacity: alpha ?? Double(a) / 255
-        )
-    }
-}

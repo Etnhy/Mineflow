@@ -85,11 +85,11 @@ final class AppStore: ObservableObject {
         case .splash(let splashAction):
             splashReducer(state: &state.splashState, action: splashAction)
             
-            if case .dataLoaded(let initialTheme, let inProgressGame,let hasCompletedOnboarding) = splashAction {
-                state.currentTheme = initialTheme
-                state.inProgressGame = inProgressGame
+            if case .dataLoaded(let dataLoadedModel) = splashAction {
+                state.currentTheme = dataLoadedModel.theme
+                state.inProgressGame = dataLoadedModel.inProgressgame
                 
-                if hasCompletedOnboarding {
+                if dataLoadedModel.onboardingCompleted {
                     send(.splash(.ended))
                 } else {
                     state.onboardingState = OnboardingState()
@@ -166,8 +166,14 @@ private extension AppStore {
                 let initialTheme = environment.settings.loadTheme()
                 let inProgressGame = environment.settings.fetchInProgressGame()
                 
+                let dataLoaded = DataLoadedResult(
+                    theme: initialTheme,
+                    inProgressgame: inProgressGame,
+                    onboardingCompleted: environment.settings.getIsOnboardingCompleted()
+                )
+
                 await MainActor.run {
-                    send(.splash(.dataLoaded(initialTheme, inProgressGame, environment.settings.getIsOnboardingCompleted())))
+                    send(.splash(.dataLoaded(dataLoaded)))
                 }
             }
             

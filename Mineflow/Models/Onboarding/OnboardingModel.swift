@@ -31,14 +31,14 @@ struct OnboardingModel {
         OnboardingModel(
             title: "Master the Mark",
             subtitle: "Long-press a cell to place a flag (🚩) on a suspected mine. Mark your path to avoid failure.",
-            image: Image(.appBimb),
+            image: Image(.secondField),
             buttonTitle: "View Strategy"
         ),
         
         OnboardingModel(
             title: "Ready for Mineflow?",
             subtitle: "Every challenge is solvable by logic. The timer starts on your first tap. Good luck!",
-            image: Image(.appBimb),
+            image: Image(.thirdField),
             buttonTitle: "Let's Play!" 
         ),
     ]

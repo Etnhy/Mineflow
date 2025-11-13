@@ -9,7 +9,7 @@ import Foundation
 
 enum SplashAction {
     case onAppear
-    case dataLoaded(GameTheme, GameState?,Bool)
+    case dataLoaded(DataLoadedResult)
     case ended
     
 }
