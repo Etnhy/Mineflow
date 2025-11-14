@@ -62,6 +62,9 @@ struct StatisticView: View {
                                         ForEach(state.games.reversed().prefix(LAST_10_GAMES_LIMIT), id: \.id) { gameModel in
                                             GameHistoryRowView(gameModel: gameModel, theme: state.theme)
                                         }
+                                        Rectangle()
+                                            .fill(.clear)
+                                            .frame(height: scaleHeight(80))
                                         
                                     }
                                     

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7A5379292EC749E300F963DB /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 7A5379282EC749E300F963DB /* FirebaseAnalytics */; };
+		7A53792B2EC749E300F963DB /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 7A53792A2EC749E300F963DB /* FirebaseCrashlytics */; };
 		7AFB3D6F2EC34C1C004FE2AC /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 7AFB3D6E2EC34C1C004FE2AC /* GoogleMobileAds */; };
 /* End PBXBuildFile section */
 
@@ -28,7 +30,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		7A53724A2EC5EFCF00F963DB /* Mineflow copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Mineflow copy-Info.plist"; path = "/Users/evhenii/DevCold/Mineflow/Mineflow copy-Info.plist"; sourceTree = "<absolute>"; };
 		7A71FBFB2EB38ADD00A9A6CA /* Mineflow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mineflow.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A71FC082EB38ADE00A9A6CA /* MineflowTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MineflowTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A71FC122EB38ADE00A9A6CA /* MineflowUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MineflowUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -70,6 +71,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7A53792B2EC749E300F963DB /* FirebaseCrashlytics in Frameworks */,
+				7A5379292EC749E300F963DB /* FirebaseAnalytics in Frameworks */,
 				7AFB3D6F2EC34C1C004FE2AC /* GoogleMobileAds in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -104,7 +107,6 @@
 				7A71FBFD2EB38ADD00A9A6CA /* Mineflow */,
 				7A71FC0B2EB38ADE00A9A6CA /* MineflowTests */,
 				7A71FC152EB38ADE00A9A6CA /* MineflowUITests */,
-				7A53724A2EC5EFCF00F963DB /* Mineflow copy-Info.plist */,
 				7A5372AE2EC5F06D00F963DB /* Frameworks */,
 				7A71FBFC2EB38ADD00A9A6CA /* Products */,
 			);
@@ -130,7 +132,6 @@
 				7A71FBF72EB38ADD00A9A6CA /* Sources */,
 				7A71FBF82EB38ADD00A9A6CA /* Frameworks */,
 				7A71FBF92EB38ADD00A9A6CA /* Resources */,
-				7A53723F2EC5EEC000F963DB /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -220,6 +221,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				7AFB3D6D2EC34C1C004FE2AC /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
+				7A5379272EC749E300F963DB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 7A71FBFC2EB38ADD00A9A6CA /* Products */;
@@ -256,26 +258,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		7A53723F2EC5EEC000F963DB /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "xcrun simctl status_bar BB37FAE3-19A1-4D1F-B71A-BFFD760C32AF override --time \"9:41\" --batteryState charged --batteryLevel 100 --cellularMode active --dataNetwork wifi\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		7A71FBF72EB38ADD00A9A6CA /* Sources */ = {
@@ -646,6 +628,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		7A5379272EC749E300F963DB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.6.0;
+			};
+		};
 		7AFB3D6D2EC34C1C004FE2AC /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
@@ -657,6 +647,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		7A5379282EC749E300F963DB /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7A5379272EC749E300F963DB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		7A53792A2EC749E300F963DB /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7A5379272EC749E300F963DB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCrashlytics;
+		};
 		7AFB3D6E2EC34C1C004FE2AC /* GoogleMobileAds */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 7AFB3D6D2EC34C1C004FE2AC /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;

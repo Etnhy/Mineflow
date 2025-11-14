@@ -10,7 +10,7 @@ import GoogleMobileAds
 
 @main
 struct MineflowApp: App {
-    
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     private static let environment = AppEnvironment.env
     
     private static let loadedState: AppState = {
