@@ -101,6 +101,10 @@ final class AppStore: ObservableObject {
             
         case .onboarding(let onboardingAction):
             onboardingReducer(state: &state.onboardingState, action: onboardingAction)
+        case .presentInfoPlaySheet:
+            let infoState = InfoPlayState(theme: state.currentTheme)
+            state.howToPlayState = infoState
+            state.presentedSheet = .howToPlay
         }
         
     }
@@ -321,6 +325,8 @@ private extension AppStore {
             
         case .timerTick:
             break
+        case .howToPlayTapped:
+            send(.presentInfoPlaySheet)
         }
     }
     

@@ -63,4 +63,18 @@ struct OnboardingView: View {
 
         }
     }
+    
+    @ViewBuilder
+    private var animationView: some View {
+        switch state.currentIndex {
+        case 0:
+            AnimatedMinefieldBackground()
+        case 1:
+            AnimatedFlaggingBackground()
+        case 2:
+            AnimatedReadyBackground()
+        default: EmptyView()
+        }
+    }
 }
+

@@ -10,7 +10,7 @@ import SwiftUI
 struct CellView: View {
     var theme: GameTheme
     let cell: Cell
-
+    
     let cellCornerRadius: CGFloat
     let cellFontSize: CGFloat
     let cellImageSize: CGFloat
@@ -22,17 +22,27 @@ struct CellView: View {
     var body: some View {
         ZStack {
             let baseColor = cell.isOpened ? theme.cellOpened : theme.cellClosed
-            ZStack {
-                RoundedRectangle(cornerRadius: cellCornerRadius)
-                    .fill(cellIsOpenMine ? .red : baseColor)
-                    .aspectRatio(1, contentMode: .fit)
-                RoundedRectangle(cornerRadius: cellCornerRadius)
-                    .stroke(Color.black.opacity(0.3), lineWidth: 0.5)
-                    .aspectRatio(1, contentMode: .fit)
-            }
+            //            ZStack {
+            //                RoundedRectangle(cornerRadius: cellCornerRadius)
+            //                    .fill(cellIsOpenMine ? .red : baseColor)
+            //                    .aspectRatio(1, contentMode: .fit)
+            //                RoundedRectangle(cornerRadius: cellCornerRadius)
+            //                    .stroke(Color.black.opacity(0.3), lineWidth: 0.5)
+            //                    .aspectRatio(1, contentMode: .fit)
+            //            }
             
-
+            
             if cell.isOpened {
+                
+                ZStack {
+                    RoundedRectangle(cornerRadius: cellCornerRadius)
+                        .fill(cellIsOpenMine ? Color.bombRed : theme.cellOpened)
+                        .aspectRatio(1, contentMode: .fit)
+                    
+                    RoundedRectangle(cornerRadius: cellCornerRadius)
+                        .stroke(Color.black.opacity(0.3), lineWidth: 0.5)
+                        .aspectRatio(1, contentMode: .fit)
+                }
                 if cell.isMine {
                     if let image = theme.bombImage {
                         image
@@ -46,13 +56,47 @@ struct CellView: View {
                 } else if cell.surroundingMines > 0 {
                     Text("\(cell.surroundingMines)")
                         .font(.sofia(weight: .bold700, size: cellFontSize))
-
+                    
                         .foregroundColor(theme.numberColors[cell.surroundingMines - 1])
                 } else {
                     EmptyView()
                 }
                 
             } else {
+                
+                ZStack {
+                    RoundedRectangle(cornerRadius: cellCornerRadius)
+                        .fill(theme.cellClosed)
+                        .aspectRatio(1, contentMode: .fit)
+                    
+                    RoundedRectangle(cornerRadius: cellCornerRadius)
+                        .fill(
+                            LinearGradient(
+                                colors: [
+                                    Color.white.opacity(0.15),
+                                    Color.white.opacity(0.0)
+                                ],
+                                startPoint: .top,
+                                endPoint: .bottom
+                            )
+                        )
+                        .aspectRatio(1, contentMode: .fit)
+                    
+                    RoundedRectangle(cornerRadius: cellCornerRadius)
+                        .fill(
+                            LinearGradient(
+                                colors: [
+                                    Color.black.opacity(0.0),
+                                    Color.black.opacity(0.15)
+                                ],
+                                startPoint: .top,
+                                endPoint: .bottom
+                            )
+                        )
+                        .aspectRatio(1, contentMode: .fit)
+                }
+                
+                
                 switch cell.flagState {
                 case .flagged:
                     if let image = theme.flagImage {
@@ -60,10 +104,10 @@ struct CellView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: scaleHeight(cellImageSize), height: scaleHeight(cellImageSize))
-
+                        
                     } else {
                         TextOrIcon(theme.flagIcon)
-
+                        
                     }
                     
                 case .questionMarked:
@@ -73,7 +117,7 @@ struct CellView: View {
                             .scaledToFit()
                             .frame(width: scaleHeight(cellImageSize), height: scaleHeight(cellImageSize))
                     } else {
-                    
+                        
                         TextOrIcon(theme.questionMarkIcon)
                     }
                 case .none:
@@ -82,7 +126,7 @@ struct CellView: View {
             }
         }
     }
-        
+    
     
     private func colorForNumber(_ number: Int) -> Color {
         switch number {
@@ -104,7 +148,7 @@ struct CellView: View {
         if iconName.count == 1 {
             Text(iconName)
                 .font(.caption)
-
+            
         } else {
             Image(systemName: iconName)
                 .font(.caption)

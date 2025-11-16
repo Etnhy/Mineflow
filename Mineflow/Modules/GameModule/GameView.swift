@@ -37,9 +37,16 @@ struct GameView: View {
         ZStack {
             theme.backgroundColor.ignoresSafeArea()
             VStack(spacing: 0) {
-                AppViewHeader(theme: theme, title: state.gameModel.gameMode.title) {
-                    dismiss()
-                }
+                let right = RightActionModel(icon: "questionmark.circle", action: {
+                    send(.howToPlayTapped)
+                })
+                AppViewHeader(
+                    theme: theme,
+                    title: state.gameModel.gameMode.title,
+                    onBack: {
+                        dismiss()
+                    },
+                    rightAction: right)
                 
                 GameHeaderView(
                     theme: theme,

@@ -18,4 +18,6 @@ enum GameAction {
     case restartGame(StartGameModel)
     case timerTick
     
+    case howToPlayTapped
+    
 }

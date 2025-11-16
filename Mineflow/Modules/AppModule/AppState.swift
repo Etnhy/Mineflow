@@ -16,6 +16,7 @@ enum NavigationRoute: Hashable {
 enum SheetRoute: Identifiable {
     case settings
     case userProfile
+    case howToPlay
     var id: Self { self }
 }
 
@@ -28,6 +29,8 @@ struct AppState {
     var onboardingState: OnboardingState? = nil
     
     var gameFeature: GameState?
+    
+    var howToPlayState: InfoPlayState?
     
     var settingsState: SettingsState?
     

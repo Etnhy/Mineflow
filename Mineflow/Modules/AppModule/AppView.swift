@@ -58,7 +58,20 @@ struct AppView: View {
         .safeAreaInset(edge: .bottom) {
             BannerAdsView()
                 .opacity(store.state.splashState == nil && store.state.onboardingState == nil ? 1 : 0)
-            
+        }
+        .sheet(item: sheetBinding) { route in
+            switch route {
+            case .howToPlay:
+                if let howToPlayState = store.state.howToPlayState {
+                    InfoPlayView(state: howToPlayState) { infoAction in
+                        store.send(.howToPlay(infoAction))
+                    }
+                } else {
+                    
+                }
+            default:
+                EmptyView()
+            }
         }
     }
     
@@ -89,6 +102,7 @@ struct AppView: View {
             .navigationDestination(for: NavigationRoute.self) { route in
                 navigation(route: route)
             }
+
             .toolbar(.hidden, for: .navigationBar)
             .onChange(of: scenePhase) { scenePhase in
                 store.send(.scenePhaseChanged(scenePhase))

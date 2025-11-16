@@ -23,8 +23,7 @@ struct PlayButtonView: View {
                     .font(.sofia(weight: .bold700, size: 20))
                     .foregroundColor(theme.primaryTextColor)
                 
-                Text("\(model.cols)x\(model.rows), \(model.totalMines) mine")
-                    .font(.sofia(weight: .regular400, size: 14))
+                Text("\(model.cols)x\(model.rows), \(model.totalMines) \(model.totalMines == 1 ? "hazard" : "hazards")")                    .font(.sofia(weight: .regular400, size: 14))
                     .foregroundColor(theme.secondaryTextColor)
             }
             

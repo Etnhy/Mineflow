@@ -174,6 +174,8 @@ func gameReducer(state: inout GameState?, action: GameAction) -> Void {
         }
         newState.moveHistory.append(.longPress(row: r, col: c))
 
+    case .howToPlayTapped:
+        break
     }
     
     state = newState

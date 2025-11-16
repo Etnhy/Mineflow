@@ -46,7 +46,11 @@ struct BoardGridView: View {
             }
         }
         .padding(padding)
-        .background(Color.gray.opacity(0.5))
-        .drawingGroup() 
+        .drawingGroup()
+//        .padding(scaleHeight(3))
+//
+//        .background(
+//            RoundedRectangle(cornerRadius: scaleHeight(12))
+//        )
     }
 }

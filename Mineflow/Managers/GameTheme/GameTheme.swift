@@ -62,9 +62,9 @@ struct GameTheme: Equatable, Identifiable, Hashable {
             .blue, .green, .red, .purple, .orange, .cyan, .pink, .black
         ],
         bombIcon: "💣",
-        bombImage: Image(.classicMine),
+        bombImage: Image(.bombBoom),
         flagIcon: "🚩",
-        flagImage: Image(.classicFlag),
+        flagImage: Image(.danger2),
         questionMarkIcon: "❓",
         questionImage: Image(.questionClassic),
         cornerRadius: 0,

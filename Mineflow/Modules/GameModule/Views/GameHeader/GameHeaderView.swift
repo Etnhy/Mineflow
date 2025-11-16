@@ -19,7 +19,7 @@ struct GameHeaderView: View {
             
             StatBox(
                 theme: theme,
-                label: "Flags",
+                label: "Hints",
                 value: "\(flagsRemaining)",
                 icon: "flag.fill",
                 valueColor: theme.accentColor
@@ -27,7 +27,7 @@ struct GameHeaderView: View {
             
             Button(action: onRestart) {
                 Text(smileyForStatus(status))
-                    .font(.sofia(weight: .regular400, size: 36))
+                    .font(.sofia(weight: .black900, size: 30))
                     .frame(maxWidth: .infinity)
                     .frame(height: 50)
             }
@@ -36,7 +36,7 @@ struct GameHeaderView: View {
             
             StatBox(
                 theme: theme,
-                label: "Time",
+                label: "Flow",
                 value: formatTime(elapsedTime),
                 icon: "clock.fill",
                 valueColor: theme.primaryTextColor
@@ -50,9 +50,9 @@ struct GameHeaderView: View {
     
     private func smileyForStatus(_ status: GameStatus) -> String {
         switch status {
-        case .initial, .playing: return "🙂"
-        case .won: return "😎"
-        case .lost: return "😵"
+        case .initial, .playing: return "🤔"
+        case .won: return "WON"
+        case .lost: return "LOSE"
         }
     }
     
