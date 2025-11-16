@@ -29,10 +29,11 @@ struct OnboardingView: View {
                 .frame(height: scaleHeight(140))
                 .padding(.top,scaleHeight(12))
                 .foregroundStyle(.white)
-                model.image
-                    .resizable()
-                    .aspectRatio(1, contentMode: .fit)
-                    .shadow(radius: 10)
+//                model.image
+//                    .resizable()
+//                    .aspectRatio(1, contentMode: .fit)
+//                    .shadow(radius: 10)
+                animationView
             }
             .padding(.horizontal)
             .multilineTextAlignment(.center)

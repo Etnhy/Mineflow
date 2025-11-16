@@ -47,6 +47,8 @@ struct AnimatedFlaggingBackground: View {
         }
         .background(Color.gray.opacity(0.05))
         .ignoresSafeArea()
+        .padding()
+
     }
 }
 

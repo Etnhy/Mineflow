@@ -38,6 +38,8 @@ struct AnimatedReadyBackground: View {
             }
         }
         .ignoresSafeArea()
+        .padding()
+
     }
     
     private func initialPosition(for index: Int, geometry: GeometryProxy) -> CGPoint {

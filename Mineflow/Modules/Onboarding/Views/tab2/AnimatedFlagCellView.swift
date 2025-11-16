@@ -18,7 +18,7 @@ struct AnimatedFlagCellView: View {
                 .fill(isBaseRevealed ? GameTheme.classic.cellOpened : GameTheme.classic.cellClosed)
             
             if isFlagged {
-                Image(.classicFlag)
+                Image(.danger2)
                     .resizable()
                     .aspectRatio(1, contentMode: .fit)
                     .frame(width: scaleHeight(35), height: scaleHeight(35))

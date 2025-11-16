@@ -125,7 +125,7 @@ struct ThemeView: View {
 }
 
 #Preview {
-    ThemeView(state: .init(theme: .candy)) { action in
+    ThemeView(state: .init(theme: .classic)) { action in
         LoggerInfo.log("notify: \(action)")
 
     }

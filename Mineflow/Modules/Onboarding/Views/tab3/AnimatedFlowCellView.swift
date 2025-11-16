@@ -28,15 +28,14 @@ struct AnimatedFlowCellView: View {
             if contentType == .number {
 
                 Text(String(randomNumber))
-                    .font(.caption2)
+                    .font(.sofia(weight: .bold700, size: 22))
                     .fontWeight(.bold)
                     .foregroundColor(GameTheme.classic.numberColors[randomNumber])
             } else if contentType == .flag {
-                Image(systemName: "flag.fill")
+                Image(.danger2)
                     .resizable()
                     .aspectRatio(1, contentMode: .fit)
-                    .frame(width: 18, height: 18)
-                    .foregroundColor(.red.opacity(0.7))
+                    .frame(width: scaleHeight(35), height: scaleHeight(35))
             }
         }
         .frame(width: 40, height: 40)
