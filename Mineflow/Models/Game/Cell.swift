@@ -13,8 +13,8 @@ struct Cell: Identifiable, Equatable,Codable {
     let row: Int
     let col: Int
     
-    let isMine: Bool
-    let surroundingMines: Int
+    var isMine: Bool
+    var surroundingMines: Int
     
     var isOpened: Bool = false
     var flagState: FlagState = .none

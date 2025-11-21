@@ -47,10 +47,5 @@ struct BoardGridView: View {
         }
         .padding(padding)
         .drawingGroup()
-//        .padding(scaleHeight(3))
-//
-//        .background(
-//            RoundedRectangle(cornerRadius: scaleHeight(12))
-//        )
     }
 }
