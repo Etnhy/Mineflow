@@ -38,7 +38,7 @@ The project demonstrates a production-level implementation of **UDF (Unidirectio
 * **Architecture:** Custom UDF (Unidirectional Data Flow) / The Composable Architecture (TCA) concepts.
 * **Concurrency:** Swift Concurrency (async/await)
 * **Assets:** SF Symbols, Custom Vector Graphics
-* **Persistence:** UserDefaults / Codable
+* **Persistence:** UserDefaults / Codable / CoreData
 
 ---
 
