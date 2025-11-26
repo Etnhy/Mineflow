@@ -27,13 +27,16 @@ The project demonstrates a production-level implementation of **UDF (Unidirectio
 
 | Main Menu | Gameplay (Light) | Gameplay (Dark) |
 |:---:|:---:|:---:|
-| <img src="assets/screen1.png" width="250"> | <img src="assets/screen2.png" width="250"> | <img src="assets/screen3.png" width="250"> |
+| <img width="1206" height="2622" alt="Simulator Screenshot - 17 - 2025-11-26 at 14 07 23" src="https://github.com/user-attachments/assets/6ebc9734-fa56-47e8-940d-464330d1ec03" />
+ | <img width="1206" height="2622" alt="Simulator Screenshot - 17 - 2025-11-26 at 14 07 29" src="https://github.com/user-attachments/assets/dc637040-6236-47a4-b431-c7b2cb482d10" />
+ | <img width="1206" height="2622" alt="Simulator Screenshot - 17 - 2025-11-26 at 14 07 54" src="https://github.com/user-attachments/assets/59de31a8-c873-4885-a6bf-60624142a572" />
+ |
 
 ---
 
 ## 🛠 Tech Stack
 
-* **Language:** Swift 5.9
+* **Language:** Swift 6
 * **UI Framework:** SwiftUI
 * **Architecture:** Custom UDF (Unidirectional Data Flow) / The Composable Architecture (TCA) concepts.
 * **Concurrency:** Swift Concurrency (async/await)
