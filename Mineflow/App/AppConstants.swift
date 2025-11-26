@@ -8,7 +8,7 @@
 import Foundation
 
 enum AppConstants {
-    static let appleID = "6754763884"
+    static let appleID = "00000000"
     static let shareLink = "https://apps.apple.com/app/id\(Self.appleID)"
     
     static let privacyLink = "https://sites.google.com/view/mineflow/privacy-policy"
@@ -21,10 +21,8 @@ enum AppConstants {
     
     #if DEBUG
     static let banneradKey = "ca-app-pub-3940256099942544/2435281174"
-//    static let rewardAdKey = "ca-app-pub-3940256099942544/2435281174"
     #else
-    static let banneradKey = "ca-app-pub-2903076569215801/7817750617"
-//    static let rewardAdKey = "ca-app-pub-2903076569215801/2971660181"
+    static let banneradKey = ""
 
     #endif
     
