@@ -1,7 +1,7 @@
 # 🌊 Mineflow: Modern Logic Puzzle
 
 ![Banner](assets/banner.png)
-[![Swift](https://img.shields.io/badge/Swift-5.9-F05138?style=flat-square&logo=swift&logoColor=white)](https://developer.apple.com/swift/)
+[![Swift](https://img.shields.io/badge/Swift-6.0-F05138?style=flat-square&logo=swift&logoColor=white)](https://developer.apple.com/swift/)
 [![SwiftUI](https://img.shields.io/badge/SwiftUI-3.0-007AFF?style=flat-square&logo=swift&logoColor=white)](https://developer.apple.com/xcode/swiftui/)
 [![iOS](https://img.shields.io/badge/iOS-16.0%2B-000000?style=flat-square&logo=apple&logoColor=white)]()
 [![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)]()
